@@ -1,13 +1,13 @@
 package com.fomichev.september.controller
 
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
-@Controller
-@RequestMapping("/start")
+@RestController
 class WelcomePageController {
 
-    fun start(): String{
-        return "Welcome!"
+    @RequestMapping("/start")
+    fun start(): String {
+        return "Welcome to the future!"
     }
 }
