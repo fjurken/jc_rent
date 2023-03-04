@@ -6,12 +6,11 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import kotlin.experimental.and
 
-
 @Service
 class SecurityServiceImpl : SecurityService {
     override fun encryptPassword(data: String): String {
 
-        try{
+        try {
             /* MessageDigest instance for MD5. */
             val m: MessageDigest = MessageDigest.getInstance("MD5")
             /* Add plain-text password bytes to digest using MD5 update() method. */

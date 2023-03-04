@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository
 interface ClientRepository : JpaRepository<Client, Long> {
 
     @Query("SELECT c FROM Client c WHERE c.email = :email")
-    fun getClientByEmail(@Param("email") email: String): Client
+    fun getClientByEmail(@Param("email") email: String): Client?
 }

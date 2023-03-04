@@ -1,8 +1,9 @@
 package com.fomichev.september.exception
 
-class EncryptPassException(
+class EmailWasAlreadyRegisteredException(
     message: String,
     cause: Throwable?
-) : BaseException(
-    message, cause
+): BaseException(
+    message,
+    cause
 )

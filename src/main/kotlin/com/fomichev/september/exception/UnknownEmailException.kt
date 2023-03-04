@@ -1,6 +1,6 @@
 package com.fomichev.september.exception
 
-class EncryptPassException(
+class UnknownEmailException(
     message: String,
     cause: Throwable?
 ) : BaseException(
