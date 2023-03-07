@@ -38,7 +38,7 @@ class AccountController(
                 .status(HttpStatus.OK)
                 .body(
                     "${request.email} was successfully registered!" +
-                        "\n${request.name}, welcome to the BestShop"
+                        "\n${request.name}, welcome to the Journey Car Rent"
                 )
         } catch (ar: EmailWasAlreadyRegisteredException) {
             // Client with requested email was already registered
