@@ -8,7 +8,6 @@ import com.fomichev.september.service.notification.email.EmailNotificationServic
 import com.fomichev.september.service.notification.email.templates.EmailTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/")
 class AccountController(
     private val accountService: AccountService,
-    private val emailNotificationService: EmailNotificationService
+    private val emailNotificationService: EmailNotificationService,
 ) {
 
     @GetMapping("/sign_up")
@@ -39,7 +38,7 @@ class AccountController(
                 .status(HttpStatus.OK)
                 .body(
                     "${request.email} was successfully registered!" +
-                            "\n${request.name}, welcome to the BestShop"
+                        "\n${request.name}, welcome to the BestShop"
                 )
         } catch (ar: EmailWasAlreadyRegisteredException) {
             // Client with requested email was already registered

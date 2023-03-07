@@ -43,6 +43,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.2")
     implementation("mysql:mysql-connector-java:5.1.49")
+    implementation("org.springframework.kafka:spring-kafka:2.8.6")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

@@ -46,7 +46,8 @@ class AccountServiceImpl(
             return client
         } else throw EmailWasAlreadyRegisteredException(
             "Client with email ${request.email} was already registered" +
-                    "\nPlease, log in or click \"Forgot my password\"", null
+                "\nPlease, log in or click \"Forgot my password\"",
+            null
         )
     }
 
@@ -57,7 +58,7 @@ class AccountServiceImpl(
         val clientId = clientRepository.getClientByEmail(request.email)?.id
             ?: throw UnknownEmailException(
                 "Client with email ${request.email} hasn't been registered!" +
-                        "\nPlease, create new account.",
+                    "\nPlease, create new account.",
                 null
             )
         val encryptedPass = clientBackRepository.getDataByClientId(clientId)
@@ -70,7 +71,7 @@ class AccountServiceImpl(
     override fun restorePassword(request: UserRequest) {
         val client = clientRepository.getClientByEmail(request.email) ?: throw UnknownEmailException(
             "Client with email ${request.email} hasn't been registered!" +
-                    "\nPlease, create new account.",
+                "\nPlease, create new account.",
             null
         )
         emailNotificationService.notify(client, EmailTemplate.RESTORE_PASSWORD)

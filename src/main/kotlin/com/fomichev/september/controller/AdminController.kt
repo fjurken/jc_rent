@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/admin")
 class AdminController(
     private val accountService: AccountService
-): AbstractService() {
+) : AbstractService() {
 
     /**
      *
@@ -37,6 +37,4 @@ class AdminController(
             ResponseEntity.ok().body(ue.message)
         }
     }
-
-
 }

@@ -1,13 +1,13 @@
 package com.fomichev.september.service.notification.email.templates
 
 import com.fomichev.september.model.Client
-import com.fomichev.september.service.AbstractService
 import com.fomichev.september.service.notification.email.dto.Email
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 import java.io.BufferedReader
 
 @Component
-class WelcomeMail : EmailGenerator, AbstractService() {
+class WelcomeMail(notificationKafkaTemplate: KafkaTemplate<String, Email>) : EmailGenerator(notificationKafkaTemplate) {
 
     override fun composeEmail(client: Client): Email {
         val reader = BufferedReader(ClassLoader.getSystemResourceAsStream("templates/welcome_mail.html").reader())
