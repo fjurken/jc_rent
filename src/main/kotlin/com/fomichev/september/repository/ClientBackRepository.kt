@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ClientBackRepository : JpaRepository<ClientBack, Long> {
 
+
+    @Query("select c from ClientBack c where c.client_id = :clientId")
+    fun getByClientId(@Param("clientId") id: Long): ClientBack?
+
     @Query("select c.data from ClientBack c where c.client_id = :id")
-    fun getDataByClientId(@Param("id") id: Long): String
+    fun getDataByClientId(@Param("id") id: Long): String?
 }

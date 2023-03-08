@@ -7,16 +7,19 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 
 @Component
-class RestorePasswordMail(notificationKafkaTemplate: KafkaTemplate<String, Email>) : EmailGenerator(
+class RestorePasswordMail(
+    notificationKafkaTemplate: KafkaTemplate<String, Email>
+) : EmailGenerator(
     notificationKafkaTemplate
 ) {
 
-    override fun composeEmail(client: Client): Email {
-        val tempPassword = RandomString.make()
+    override fun composeEmail(client: Client, payload: Map<String, String>?): Email {
+        val tempPassword = payload?.get("pass")
         return Email(
             emailAddress = client.email,
             templateName = getMyCode().name,
-            htmlData = tempPassword
+            htmlData = "Hi ${client.name}, here is your new password $tempPassword. \n" +
+                    "Best regards, Journey Car Rent"
         )
     }
 

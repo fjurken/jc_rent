@@ -11,7 +11,7 @@ abstract class EmailGenerator(
     private val notificationKafkaTemplate: KafkaTemplate<String, Email>
 ): AbstractService() {
 
-    abstract fun composeEmail(client: Client): Email
+    abstract fun composeEmail(client: Client, payload: Map<String, String>?): Email
 
     abstract fun getMyCode(): EmailTemplate
 

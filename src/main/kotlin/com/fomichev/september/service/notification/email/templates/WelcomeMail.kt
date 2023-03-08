@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 class WelcomeMail(notificationKafkaTemplate: KafkaTemplate<String, Email>) : EmailGenerator(notificationKafkaTemplate) {
 
-    override fun composeEmail(client: Client): Email {
+    override fun composeEmail(client: Client, payload: Map<String, String>?): Email {
         val email = Email(
             emailAddress = client.email,
             templateName = getMyCode().name,

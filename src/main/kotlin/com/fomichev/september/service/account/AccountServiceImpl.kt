@@ -1,6 +1,7 @@
 package com.fomichev.september.service.account
 
 import com.fomichev.september.controller.dto.request.UserRequest
+import com.fomichev.september.exception.ClientBackDataIsEmptyException
 import com.fomichev.september.exception.EmailWasAlreadyRegisteredException
 import com.fomichev.september.exception.UnknownEmailException
 import com.fomichev.september.model.Client
@@ -8,9 +9,8 @@ import com.fomichev.september.model.ClientBack
 import com.fomichev.september.repository.ClientBackRepository
 import com.fomichev.september.repository.ClientRepository
 import com.fomichev.september.security.SecurityService
-import com.fomichev.september.service.notification.email.EmailNotificationService
-import com.fomichev.september.service.notification.email.templates.EmailTemplate
 import mu.KotlinLogging
+import net.bytebuddy.utility.RandomString
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,10 +19,18 @@ class AccountServiceImpl(
     private val clientRepository: ClientRepository,
     private val clientBackRepository: ClientBackRepository,
     private val securityService: SecurityService,
-    private val emailNotificationService: EmailNotificationService
 ) : AccountService {
 
     val log = KotlinLogging.logger {}
+
+    @Transactional
+    override fun getClientByEmail(email: String): Client {
+        return clientRepository.getClientByEmail(email) ?: throw UnknownEmailException(
+            "Client with email $email hasn't been registered!" +
+                    "\nPlease, create new account.",
+            null
+        )
+    }
 
     /**
      * Sign up
@@ -46,7 +54,7 @@ class AccountServiceImpl(
             return client
         } else throw EmailWasAlreadyRegisteredException(
             "Client with email ${request.email} was already registered" +
-                "\nPlease, log in or click \"Forgot my password\"",
+                    "\nPlease, log in or click \"Forgot my password\"",
             null
         )
     }
@@ -58,7 +66,7 @@ class AccountServiceImpl(
         val clientId = clientRepository.getClientByEmail(request.email)?.id
             ?: throw UnknownEmailException(
                 "Client with email ${request.email} hasn't been registered!" +
-                    "\nPlease, create new account.",
+                        "\nPlease, create new account.",
                 null
             )
         val encryptedPass = clientBackRepository.getDataByClientId(clientId)
@@ -68,12 +76,15 @@ class AccountServiceImpl(
     /**
      * Restore password
      */
-    override fun restorePassword(request: UserRequest) {
-        val client = clientRepository.getClientByEmail(request.email) ?: throw UnknownEmailException(
-            "Client with email ${request.email} hasn't been registered!" +
-                "\nPlease, create new account.",
-            null
-        )
-        emailNotificationService.notify(client, EmailTemplate.RESTORE_PASSWORD)
+    override fun restorePassword(client: Client): Pair<String, String> {
+        val clientData = clientBackRepository.getByClientId(client.id!!)
+            ?: throw ClientBackDataIsEmptyException(
+                "ClientBack data for client $client is empty!", null
+            )
+        val pass = RandomString.make()
+        val encryptedPass = securityService.encryptPassword(pass)
+        clientData.data = encryptedPass
+        clientBackRepository.save(clientData)
+        return Pair(pass, encryptedPass)
     }
 }

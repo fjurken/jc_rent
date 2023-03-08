@@ -28,12 +28,12 @@ class AccountController(
 
     @PostMapping("/sign_up")
     fun signIn(@RequestBody request: UserRequest): ResponseEntity<*> {
-        if (request.password.equals("")) return ResponseEntity.ok().body("Field \"password\" can't be empty!")
+        if (request.password.equals("")) return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
         try {
             // Save new client data
             val client = accountService.signUp(request)
             // Notify new our client with Welcome template email
-            emailNotificationService.notify(client, EmailTemplate.WELCOME)
+            emailNotificationService.notify(client, EmailTemplate.WELCOME, null)
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
@@ -70,7 +70,9 @@ class AccountController(
     @PostMapping("/restore_password")
     fun restorePassword(@RequestBody request: UserRequest): ResponseEntity<*> {
         return try {
-            accountService.restorePassword(request)
+            val client = accountService.getClientByEmail(request.email)
+            val pass = accountService.restorePassword(client)
+            emailNotificationService.notify(client, EmailTemplate.RESTORE_PASSWORD, mapOf(Pair("pass", pass.first)))
             ResponseEntity.ok().body("Password was restored, please, check your email")
         } catch (ue: UnknownEmailException) {
             ResponseEntity
