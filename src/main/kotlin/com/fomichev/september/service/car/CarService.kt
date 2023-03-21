@@ -16,5 +16,4 @@ interface CarService {
     fun startRentCar(carId: Long, startDateTime: Instant, endDateTime: Instant)
 
     fun finishRentCar(carId: Long)
-
 }
