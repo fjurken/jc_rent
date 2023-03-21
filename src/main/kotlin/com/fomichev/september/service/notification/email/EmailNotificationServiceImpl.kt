@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.lang.UnsupportedOperationException
 
 @Service
-class EmailNotificationServiceImpl(): EmailNotificationService, AbstractService() {
+class EmailNotificationServiceImpl() : EmailNotificationService, AbstractService() {
 
     @Autowired
     constructor(emailGenerators: List<EmailGenerator>) : this() {

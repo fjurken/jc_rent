@@ -8,12 +8,14 @@ import com.fomichev.september.service.notification.email.EmailNotificationServic
 import com.fomichev.september.service.notification.email.templates.EmailTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+@CrossOrigin(origins = ["http://localhost:5173"])
 @RestController
 @RequestMapping("/")
 class AccountController(
@@ -55,7 +57,7 @@ class AccountController(
 
     @PostMapping("/log_in")
     fun logIn(@RequestBody request: UserRequest): ResponseEntity<*> {
-        if (request.password.equals("")) return ResponseEntity.ok().body("Field \"password\" can't be empty!")
+        if (request.password.equals("")) return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
         return try {
             if (accountService.logIn(request))
                 ResponseEntity.status(HttpStatus.OK).body("")

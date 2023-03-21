@@ -27,7 +27,7 @@ class AccountServiceImpl(
     override fun getClientByEmail(email: String): Client {
         return clientRepository.getClientByEmail(email) ?: throw UnknownEmailException(
             "Client with email $email hasn't been registered!" +
-                    "\nPlease, create new account.",
+                "\nPlease, create new account.",
             null
         )
     }
@@ -54,7 +54,7 @@ class AccountServiceImpl(
             return client
         } else throw EmailWasAlreadyRegisteredException(
             "Client with email ${request.email} was already registered" +
-                    "\nPlease, log in or click \"Forgot my password\"",
+                "\nPlease, log in or click \"Forgot my password\"",
             null
         )
     }
@@ -66,7 +66,7 @@ class AccountServiceImpl(
         val clientId = clientRepository.getClientByEmail(request.email)?.id
             ?: throw UnknownEmailException(
                 "Client with email ${request.email} hasn't been registered!" +
-                        "\nPlease, create new account.",
+                    "\nPlease, create new account.",
                 null
             )
         val encryptedPass = clientBackRepository.getDataByClientId(clientId)

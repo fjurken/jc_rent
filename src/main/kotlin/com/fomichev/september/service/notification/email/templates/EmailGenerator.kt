@@ -9,7 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate
 
 abstract class EmailGenerator(
     private val notificationKafkaTemplate: KafkaTemplate<String, Email>
-): AbstractService() {
+) : AbstractService() {
 
     abstract fun composeEmail(client: Client, payload: Map<String, String>?): Email
 
@@ -17,6 +17,11 @@ abstract class EmailGenerator(
 
     fun send(email: Email) {
         notificationKafkaTemplate.send("test", email)
+        /*try {
+            log.info("Email $email successfully sent to kafka!")
+        } catch (ex: Throwable) {
+            log.error("Something went wrong during sendigm email $email", ex)
+        }*/
     }
 }
 

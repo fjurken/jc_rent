@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ClientBackRepository : JpaRepository<ClientBack, Long> {
 
-
     @Query("select c from ClientBack c where c.client_id = :clientId")
     fun getByClientId(@Param("clientId") id: Long): ClientBack?
 
