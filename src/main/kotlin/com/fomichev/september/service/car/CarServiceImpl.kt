@@ -2,13 +2,15 @@ package com.fomichev.september.service.car
 
 import com.fomichev.september.model.Car
 import com.fomichev.september.repository.CarRepository
+import com.fomichev.september.service.rent.CarRentService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 
 @Service
 class CarServiceImpl(
-    private val carRepository: CarRepository
+    private val carRepository: CarRepository,
+    private val carRentService: CarRentService
 ) : CarService {
 
     @Transactional
@@ -33,7 +35,8 @@ class CarServiceImpl(
 
     @Transactional
     override fun startRentCar(carId: Long, startDateTime: Instant, endDateTime: Instant) {
-        TODO("Not yet implemented")
+        println("Request for rent car=${getCar(carId)}, from: $startDateTime to: $endDateTime")
+        carRentService.startRent(carId, startDateTime, endDateTime)
     }
 
     @Transactional

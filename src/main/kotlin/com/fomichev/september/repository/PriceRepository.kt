@@ -1,6 +1,6 @@
 package com.fomichev.september.repository
 
-import com.fomichev.september.model.Rent
+import com.fomichev.september.model.Price
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -8,23 +8,24 @@ import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RentRepository : JpaRepository<Rent, Long> {
+interface PriceRepository : JpaRepository<Price, Long> {
 
     @Query(
         """
-        select r from Rent r
-        where r.finished = false
+        select p.price
+        from Price p
+        where car_id = :carId
     """
     )
-    fun getActiveRentList(): List<Rent>
+    fun getPriceByCar(@Param("carId") carId: Long): Double?
 
     @Modifying
     @Query(
         """
-            update Rent r
-            set r.finished = true
-            where r.id = :rentId
-        """
+        update Price p
+        set p.price = :newPrice
+        where p.carId = :carId
+    """
     )
-    fun finishRent(@Param("rentId") rentId: Long)
+    fun updateCarPrice(@Param("carId") carId: Long, @Param("newPrice") newPrice: Double)
 }

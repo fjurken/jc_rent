@@ -1,6 +1,5 @@
 package com.fomichev.september.model
 
-import java.time.Instant
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -9,8 +8,8 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity
-@Table(name = "rent")
-class Rent(
+@Table(name = "price")
+class Price(
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,13 +19,7 @@ class Rent(
     @Column(name = "car_id")
     var carId: Long,
 
-    @Column(name = "start_date")
-    var startDate: Instant,
-
-    @Column(name = "end_date")
-    var endDate: Instant,
-
-    @Column(name = "finished")
-    var finished: Boolean = false,
+    @Column(name = "price")
+    var price: Double
 
 )
