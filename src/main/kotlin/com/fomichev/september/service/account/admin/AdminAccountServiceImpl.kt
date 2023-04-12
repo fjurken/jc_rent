@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class AdminAccountServiceImpl(
-    private val accountService: AccountService
+//    private val accountService: AccountService
 ) : AdminAccountService {
 
     override fun logIn(request: UserRequest): Boolean {
-        return accountService.logIn(request)
+//        return accountService.logIn(request)
+        return true
     }
 }

@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/catalog/")
-class CatalogController(
+@RequestMapping("/api/v1/catalog/")
+class RentControllerV1(
     private val carService: CarService,
     private val carMapper: CarMapper
 ) {
 
-    @GetMapping("/cars")
+    @GetMapping("cars")
     fun getCarsCatalog(): List<CarCatalog> {
         val carList = carService.getListOfAvailableCars()
         return carMapper.toAvailableListCarResponse(carList)
     }
 
-    @PostMapping("/rent")
+    @PostMapping("rent")
     fun rent(@RequestBody request: CarRentRequest) {
         carService.startRentCar(request.carId, request.startDate, request.endDate)
     }

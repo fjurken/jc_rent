@@ -3,9 +3,7 @@ package com.fomichev.september.controller
 import com.fomichev.september.controller.dto.request.UserRequest
 import com.fomichev.september.exception.EmailWasAlreadyRegisteredException
 import com.fomichev.september.exception.UnknownEmailException
-import com.fomichev.september.service.account.AccountService
 import com.fomichev.september.service.notification.email.EmailNotificationService
-import com.fomichev.september.service.notification.email.templates.EmailTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -19,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/")
 class AccountController(
-    private val accountService: AccountService,
+//    private val accountService: AccountService,
     private val emailNotificationService: EmailNotificationService,
 ) {
+
+
 
     @GetMapping("/sign_up")
     fun getSignUpPage(): String {
@@ -33,9 +33,9 @@ class AccountController(
         if (request.password.equals("")) return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
         try {
             // Save new client data
-            val client = accountService.signUp(request)
-            // Notify new our client with Welcome template email
-            emailNotificationService.notify(client, EmailTemplate.WELCOME, null)
+//            val client = accountService.signUp(request)
+//             Notify new our client with Welcome template email
+//            emailNotificationService.notify(client, EmailTemplate.WELCOME, null)
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
@@ -55,26 +55,26 @@ class AccountController(
         return "log_in"
     }
 
-    @PostMapping("/log_in")
-    fun logIn(@RequestBody request: UserRequest): ResponseEntity<*> {
-        if (request.password.equals("")) return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
-        return try {
-            if (accountService.logIn(request))
-                ResponseEntity.status(HttpStatus.OK).body("")
-            else ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email or password incorrect!")
-        } catch (ue: UnknownEmailException) {
-            ResponseEntity
-                .ok()
-                .body(ue.message)
-        }
-    }
+//    @PostMapping("/log_in")
+//    fun logIn(@RequestBody request: UserRequest): ResponseEntity<*> {
+//        if (request.password.equals("")) return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
+//        return try {
+//            if (accountService.logIn(request))
+//                ResponseEntity.status(HttpStatus.OK).body("")
+//            else ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email or password incorrect!")
+//        } catch (ue: UnknownEmailException) {
+//            ResponseEntity
+//                .ok()
+//                .body(ue.message)
+//        }
+//    }
 
     @PostMapping("/restore_password")
     fun restorePassword(@RequestBody request: UserRequest): ResponseEntity<*> {
         return try {
-            val client = accountService.getClientByEmail(request.email)
-            val pass = accountService.restorePassword(client)
-            emailNotificationService.notify(client, EmailTemplate.RESTORE_PASSWORD, mapOf(Pair("pass", pass.first)))
+//            val client = accountService.getClientByEmail(request.email)
+//            val pass = accountService.restorePassword(client)
+//            emailNotificationService.notify(client, EmailTemplate.RESTORE_PASSWORD, mapOf(Pair("pass", pass.first)))
             ResponseEntity.ok().body("Password was restored, please, check your email")
         } catch (ue: UnknownEmailException) {
             ResponseEntity

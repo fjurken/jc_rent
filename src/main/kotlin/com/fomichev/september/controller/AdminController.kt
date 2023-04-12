@@ -25,31 +25,12 @@ import org.springframework.web.bind.annotation.RestController
  * Administrator
  */
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/v1/admin/")
 class AdminController(
-    private val accountService: AccountService,
     private val carService: CarService,
     private val carRentService: CarRentService,
     private val priceService: PriceService
 ) : AbstractService() {
-
-    /**
-     *
-     */
-    @PostMapping("/log_in")
-    fun logIn(@RequestBody request: UserRequest): ResponseEntity<*> {
-        return try {
-            if (accountService.logIn(request)) {
-                log.info("Accessed as Admin")
-                ResponseEntity.ok().body("Accessed as Admin")
-            } else {
-                log.info("Admin access denied")
-                ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Admin access denied")
-            }
-        } catch (ue: UnknownEmailException) {
-            ResponseEntity.ok().body(ue.message)
-        }
-    }
 
     @PostMapping("/catalog/add")
     fun addCar(@RequestBody car: CarRequest) {

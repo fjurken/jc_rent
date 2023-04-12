@@ -9,8 +9,6 @@ spring:
   jpa:
     database: MYSQL
     show-sql: true
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
@@ -18,3 +16,8 @@ spring:
 logging:
   level:
     com.fomichev.september: DEBUG
+
+jwt:
+  token:
+    secret: september
+    expired: 3600000
