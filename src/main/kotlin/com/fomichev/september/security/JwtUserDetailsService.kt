@@ -2,7 +2,6 @@ package com.fomichev.september.security
 
 import com.fomichev.september.repository.UserRepository
 import com.fomichev.september.security.jwt.JwtUserFactory
-import com.fomichev.september.service.user.UserService
 import mu.KotlinLogging
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

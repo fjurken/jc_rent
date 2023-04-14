@@ -24,7 +24,7 @@ class AuthenticationControllerV1(
 
     @PostMapping("login")
     fun login(@RequestBody request: AuthenticationRequestDto): ResponseEntity<*> {
-        try{
+        try {
             val username = request.username
             authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, request.password))
             val user = userService.findByUsername(username)

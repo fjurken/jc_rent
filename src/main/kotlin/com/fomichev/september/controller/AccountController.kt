@@ -21,8 +21,6 @@ class AccountController(
     private val emailNotificationService: EmailNotificationService,
 ) {
 
-
-
     @GetMapping("/sign_up")
     fun getSignUpPage(): String {
         return "sign_up"

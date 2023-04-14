@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
+import java.io.Serializable
 import java.time.Instant
 import java.util.Base64
 import java.util.Date
@@ -28,7 +28,7 @@ class JwtTokenProvider(
 
     private val jwtUserDetailsService: JwtUserDetailsService
 
-) {
+) : Serializable {
 
     @Bean
     fun passwordEncoder(): BCryptPasswordEncoder {
@@ -64,7 +64,7 @@ class JwtTokenProvider(
 
     fun resolveToken(req: HttpServletRequest): String? {
         val bearerToken = req.getHeader("Authorization")
-        if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length)
         }
         return null

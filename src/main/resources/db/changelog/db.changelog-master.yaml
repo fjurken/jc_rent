@@ -1,4 +1,16 @@
 databaseChangeLog:
   - include:
-      - file: changeset/create-test.sql
+      - file: changeset/001-create-users.sql
+      - relativeToChangelogFile: true
+  - include:
+      - file: changeset/002-create-roles.sql
+      - relativeToChangelogFile: true
+  - include:
+      - file: changeset/003-create-user_roles.sql
+      - relativeToChangelogFile: true
+  - include:
+      - file: changeset/004-add-roles-to-roles-table.sql
+      - relativeToChangelogFile: true
+  - include:
+      - file: changeset/005-add-admin-to-users-table.sql
       - relativeToChangelogFile: true

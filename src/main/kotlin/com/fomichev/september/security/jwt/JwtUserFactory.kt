@@ -15,7 +15,6 @@ final class JwtUserFactory {
             user.firstName,
             user.lastName,
             user.password,
-            user.email,
             mapToGrantedAuthorities(user.roles),
             user.status == EntityStatus.ACTIVE,
             user.updatedDate!!

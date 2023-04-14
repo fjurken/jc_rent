@@ -8,6 +8,7 @@ import com.fomichev.september.repository.UserRepository
 import mu.KotlinLogging
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserServiceImpl(
@@ -18,6 +19,7 @@ class UserServiceImpl(
 
     val log = KotlinLogging.logger { }
 
+    @Transactional
     override fun register(user: User): User {
         val role = roleRepository.findByName("ROLE_USER")
         val userRoles = mutableListOf<Role>()
@@ -34,18 +36,21 @@ class UserServiceImpl(
         return registeredUser
     }
 
+    @Transactional
     override fun getAll(): List<User> {
         val result = userRepository.findAll()
         log.info("Users found: ${result.size}")
         return result
     }
 
+    @Transactional
     override fun findByUsername(username: String): User? {
         val result = userRepository.findByUsername(username)
         log.info("User found by username: $result")
         return result
     }
 
+    @Transactional
     override fun findById(id: Long): User? {
         val result = userRepository.findById(id).orElse(null)
         if (result == null) {
@@ -55,6 +60,7 @@ class UserServiceImpl(
         return result
     }
 
+    @Transactional
     override fun delete(id: Long) {
         userRepository.deleteById(id)
         log.info("User successfully deleted by id $id")

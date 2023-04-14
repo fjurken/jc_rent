@@ -21,9 +21,6 @@ class User(
     @Column(name = "last_name")
     var lastName: String,
 
-    @Column(name = "email")
-    var email: String,
-
     @Column(name = "password")
     var password: String,
 

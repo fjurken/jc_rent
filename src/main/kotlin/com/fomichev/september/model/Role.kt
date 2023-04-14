@@ -1,6 +1,6 @@
 package com.fomichev.september.model
 
-import lombok.Data
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -8,13 +8,13 @@ import javax.persistence.ManyToMany
 import javax.persistence.Table
 
 @Entity
-@Table(name = "role")
-@Data
+@Table(name = "roles")
 class Role(
 
     @Column(name = "name")
     var name: String,
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     var users: List<User>
 

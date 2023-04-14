@@ -1,7 +1,6 @@
 package com.fomichev.september.service.account.admin
 
 import com.fomichev.september.controller.dto.request.UserRequest
-import com.fomichev.september.service.account.AccountService
 import org.springframework.stereotype.Service
 
 @Service

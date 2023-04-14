@@ -27,7 +27,7 @@ class SecurityConfiguration(
             .and()
             .authorizeRequests()
             .antMatchers("/api/v1/auth/login").permitAll()
-            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
             .apply(JwtConfigurer(jwtTokenProvider))
