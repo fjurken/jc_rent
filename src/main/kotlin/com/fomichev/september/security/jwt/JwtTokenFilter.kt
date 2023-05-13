@@ -1,5 +1,6 @@
 package com.fomichev.september.security.jwt
 
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.GenericFilterBean
 import javax.servlet.FilterChain
@@ -7,6 +8,7 @@ import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 
+@EnableWebSecurity
 class JwtTokenFilter(
     private val jwtTokenProvider: JwtTokenProvider
 ) : GenericFilterBean() {

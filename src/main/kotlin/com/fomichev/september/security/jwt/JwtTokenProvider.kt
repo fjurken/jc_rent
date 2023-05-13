@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -43,7 +44,7 @@ class JwtTokenProvider(
     fun createToken(username: String, roles: List<Role>): String {
         val claims = Jwts.claims()
         claims.subject = username
-        claims.put("roles", roles)
+        claims["roles"] = roles.map { it.name }
 
         return Jwts.builder()
             .setClaims(claims)
@@ -63,7 +64,7 @@ class JwtTokenProvider(
     }
 
     fun resolveToken(req: HttpServletRequest): String? {
-        val bearerToken = req.getHeader("Authorization")
+        val bearerToken = req.getHeader(HttpHeaders.AUTHORIZATION)
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length)
         }

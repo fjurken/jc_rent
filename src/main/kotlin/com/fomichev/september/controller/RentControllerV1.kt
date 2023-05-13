@@ -19,8 +19,13 @@ class RentControllerV1(
 
     @GetMapping("cars")
     fun getCarsCatalog(): List<CarCatalog> {
-        val carList = carService.getListOfAvailableCars()
-        return carMapper.toAvailableListCarResponse(carList)
+//        val carList = carService.getListOfAvailableCars()
+//        return carMapper.toAvailableListCarResponse(carList)
+        return listOf(
+            CarCatalog(
+                1, "Audi RS6", "YELLOW", 200.0
+            )
+        )
     }
 
     @PostMapping("rent")
