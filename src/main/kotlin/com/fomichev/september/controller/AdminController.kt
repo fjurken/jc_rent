@@ -1,6 +1,7 @@
 package com.fomichev.september.controller
 
 import com.fomichev.september.controller.dto.request.CarRequest
+import com.fomichev.september.enum.CarType
 import com.fomichev.september.model.Car
 import com.fomichev.september.model.Rent
 import com.fomichev.september.service.AbstractService
@@ -34,8 +35,12 @@ class AdminController(
             Car(
                 brand = car.brand,
                 model = car.model,
+                carType = car.carType,
                 color = car.color,
-                horsePower = car.horsePower,
+                engineType = car.engineType,
+                engineCapacity = car.engineCapacity,
+                enginePower = car.enginePower,
+                transmission = car.transmission,
                 licencePlate = car.licencePlate
             )
         )

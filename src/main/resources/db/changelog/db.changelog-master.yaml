@@ -14,3 +14,6 @@ databaseChangeLog:
   - include:
       - file: changeset/005-add-admin-to-users-table.sql
       - relativeToChangelogFile: true
+  - include:
+      - file: changeset/006-create-cars.sql
+      - relativeToChangelogFile: true
