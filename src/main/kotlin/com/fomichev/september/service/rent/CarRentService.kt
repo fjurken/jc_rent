@@ -1,11 +1,11 @@
 package com.fomichev.september.service.rent
 
+import com.fomichev.september.controller.dto.request.RentRequest
 import com.fomichev.september.model.Rent
-import java.time.Instant
 
 interface CarRentService {
 
-    fun startRent(carId: Long, startDate: Instant, endDate: Instant)
+    fun startRent(request: RentRequest)
 
     fun finishRent(rentId: Long)
 

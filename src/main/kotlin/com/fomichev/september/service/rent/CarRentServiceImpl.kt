@@ -1,10 +1,10 @@
 package com.fomichev.september.service.rent
 
+import com.fomichev.september.controller.dto.request.RentRequest
 import com.fomichev.september.model.Rent
 import com.fomichev.september.repository.RentRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.Instant
 
 @Service
 class CarRentServiceImpl(
@@ -12,11 +12,11 @@ class CarRentServiceImpl(
 ) : CarRentService {
 
     @Transactional
-    override fun startRent(carId: Long, startDate: Instant, endDate: Instant) {
+    override fun startRent(request: RentRequest) {
         val rent = Rent(
-            carId = carId,
-            startDate = startDate,
-            endDate = endDate
+            carId = request.carId,
+            startDate = request.startDate,
+            endDate = request.endDate
         )
         rentRepository.save(rent)
     }

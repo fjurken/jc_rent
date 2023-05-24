@@ -1,21 +1,18 @@
 package com.fomichev.september.model
 
+import org.hibernate.annotations.DynamicUpdate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.EntityListeners
 import javax.persistence.Table
 
 @Entity
+@EntityListeners(AuditingEntityListener::class)
+@DynamicUpdate
 @Table(name = "rent")
 class Rent(
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    var id: Long? = null,
 
     @Column(name = "car_id")
     var carId: Long,
@@ -26,7 +23,7 @@ class Rent(
     @Column(name = "end_date")
     var endDate: Instant,
 
-    @Column(name = "finished")
-    var finished: Boolean = false,
+    @Column(name = "finished_date")
+    var finishedDate: Instant? = null,
 
-)
+    ): BaseEntity()

@@ -1,11 +1,14 @@
 package com.fomichev.september.service.car
 
+import com.fomichev.september.controller.dto.request.RentRequest
+import com.fomichev.september.controller.dto.request.UpdateCarRequest
 import com.fomichev.september.model.Car
-import java.time.Instant
 
 interface CarService {
 
     fun addNewCar(car: Car)
+
+    fun updateCar(request: UpdateCarRequest)
 
     fun getCar(carId: Long): Car?
 
@@ -13,9 +16,9 @@ interface CarService {
 
     fun deleteCar(carId: Long)
 
-    fun getListOfAvailableCars(): List<Car>
+    fun getListOfAvailableCars(): List<Car>?
 
-    fun startRentCar(carId: Long, startDateTime: Instant, endDateTime: Instant)
+    fun startRentCar(request: RentRequest)
 
     fun finishRentCar(carId: Long)
 }

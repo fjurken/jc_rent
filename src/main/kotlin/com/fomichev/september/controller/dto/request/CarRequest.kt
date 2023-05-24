@@ -9,7 +9,7 @@ data class CarRequest(
     @JsonProperty("model")
     val model: String,
     @JsonProperty("carType")
-    var carType: CarType,
+    val carType: CarType,
     @JsonProperty("color")
     val color: CarColor,
     @JsonProperty("engineType")
@@ -19,7 +19,7 @@ data class CarRequest(
     @JsonProperty("enginePower")
     val enginePower: Int,
     @JsonProperty("transmission")
-    var transmission: Transmission,
+    val transmission: Transmission,
     @JsonProperty("licencePlate")
     val licencePlate: String
 )

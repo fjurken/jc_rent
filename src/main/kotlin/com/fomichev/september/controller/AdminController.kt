@@ -1,6 +1,10 @@
 package com.fomichev.september.controller
 
 import com.fomichev.september.controller.dto.request.CarRequest
+import com.fomichev.september.controller.dto.request.RentRequest
+import com.fomichev.september.controller.dto.request.UpdateCarRequest
+import com.fomichev.september.controller.dto.response.RentResponse
+import com.fomichev.september.mapper.RentMapper
 import com.fomichev.september.model.Car
 import com.fomichev.september.model.Rent
 import com.fomichev.september.service.AbstractService
@@ -25,7 +29,8 @@ import org.springframework.web.bind.annotation.RestController
 class AdminController(
     private val carService: CarService,
     private val carRentService: CarRentService,
-    private val priceService: PriceService
+    private val priceService: PriceService,
+    private val rentMapper: RentMapper
 ) : AbstractService() {
 
     @PostMapping("/catalog/add_car")
@@ -45,22 +50,33 @@ class AdminController(
         )
     }
 
-    @GetMapping("/catalog/all_cars")
+    @PatchMapping("catalog/update_car")
+    fun updateCar(@RequestBody car: UpdateCarRequest) {
+        carService.updateCar(car)
+    }
+
+    @GetMapping("catalog/all_cars")
     fun getAllCars(): List<Car> {
         return carService.getAllCars()?: listOf()
     }
 
-    @DeleteMapping("/catalog/delete/{carId}")
+    @DeleteMapping("catalog/delete/{carId}")
     fun deleteCar(@PathVariable carId: Long) {
         carService.deleteCar(carId)
     }
 
-    @GetMapping("rent/active")
-    fun getActiveRentList(): List<Rent> {
-        return carRentService.getActiveRentList()
+    @PostMapping("rent")
+    fun rent(@RequestBody request: RentRequest) {
+        carRentService.startRent(request)
     }
 
-    @PatchMapping("/rent/finish/{rentId}")
+    @GetMapping("rent/active")
+    fun getActiveRentList(): List<RentResponse> {
+        val activeRents =  carRentService.getActiveRentList()
+        return rentMapper.rentToRentResponse(activeRents)
+    }
+
+    @PatchMapping("rent/finish/{rentId}")
     fun finishRent(@PathVariable rentId: Long) {
         carRentService.finishRent(rentId)
     }

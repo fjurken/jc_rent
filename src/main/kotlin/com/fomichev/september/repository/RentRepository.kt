@@ -13,7 +13,7 @@ interface RentRepository : JpaRepository<Rent, Long> {
     @Query(
         """
         select r from Rent r
-        where r.finished = false
+        where r.finishedDate = null
     """
     )
     fun getActiveRentList(): List<Rent>
@@ -22,7 +22,7 @@ interface RentRepository : JpaRepository<Rent, Long> {
     @Query(
         """
             update Rent r
-            set r.finished = true
+            set r.finishedDate = current_timestamp()
             where r.id = :rentId
         """
     )
