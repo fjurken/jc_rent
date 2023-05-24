@@ -1,7 +1,6 @@
 package com.fomichev.september.controller
 
 import com.fomichev.september.controller.dto.request.CarRequest
-import com.fomichev.september.enum.CarType
 import com.fomichev.september.model.Car
 import com.fomichev.september.model.Rent
 import com.fomichev.september.service.AbstractService
@@ -29,7 +28,7 @@ class AdminController(
     private val priceService: PriceService
 ) : AbstractService() {
 
-    @PostMapping("/catalog/add")
+    @PostMapping("/catalog/add_car")
     fun addCar(@RequestBody car: CarRequest) {
         carService.addNewCar(
             Car(
@@ -44,6 +43,11 @@ class AdminController(
                 licencePlate = car.licencePlate
             )
         )
+    }
+
+    @GetMapping("/catalog/all_cars")
+    fun getAllCars(): List<Car> {
+        return carService.getAllCars()?: listOf()
     }
 
     @DeleteMapping("/catalog/delete/{carId}")

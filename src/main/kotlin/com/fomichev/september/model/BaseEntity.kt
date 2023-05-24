@@ -3,6 +3,7 @@ package com.fomichev.september.model
 import com.fomichev.september.enum.EntityStatus
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
+import java.time.Instant
 import java.util.Date
 import javax.persistence.Column
 import javax.persistence.EnumType
@@ -22,11 +23,11 @@ open class BaseEntity(
 
     @CreatedDate
     @Column(name = "created")
-    var createdDate: Date? = null,
+    var createdDate: Date? = Date.from(Instant.now()),
 
     @LastModifiedDate
     @Column(name = "updated")
-    var updatedDate: Date? = null,
+    var updatedDate: Date? = Date.from(Instant.now()),
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

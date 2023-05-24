@@ -24,6 +24,11 @@ class CarServiceImpl(
     }
 
     @Transactional
+    override fun getAllCars(): List<Car>? {
+        return carRepository.findAll()
+    }
+
+    @Transactional
     override fun deleteCar(carId: Long) {
         carRepository.deleteById(carId)
     }

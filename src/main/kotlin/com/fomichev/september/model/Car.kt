@@ -1,13 +1,15 @@
 package com.fomichev.september.model
 
 import com.fomichev.september.enum.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Table
+import org.hibernate.annotations.DynamicUpdate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import javax.persistence.*
 
 @Entity
+@DynamicUpdate
+@EntityListeners(
+    AuditingEntityListener::class
+)
 @Table(name = "cars")
 class Car(
 

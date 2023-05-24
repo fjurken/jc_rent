@@ -3,7 +3,7 @@
 --changeset fjurken:create-table
 
 create table user_roles(
-    id BIGINT unique not null,
+    id BIGINT unique auto_increment not null,
     created date not null,
     updated date not null,
     status varchar(20) not null,

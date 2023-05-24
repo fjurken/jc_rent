@@ -9,6 +9,8 @@ interface CarService {
 
     fun getCar(carId: Long): Car?
 
+    fun getAllCars(): List<Car>?
+
     fun deleteCar(carId: Long)
 
     fun getListOfAvailableCars(): List<Car>
