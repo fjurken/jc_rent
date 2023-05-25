@@ -7,9 +7,7 @@ import javax.persistence.*
 
 @Entity
 @DynamicUpdate
-@EntityListeners(
-    AuditingEntityListener::class
-)
+@EntityListeners(AuditingEntityListener::class)
 @Table(name = "cars")
 class Car(
 

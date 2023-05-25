@@ -1,11 +1,27 @@
 package com.fomichev.september.service.account
 
-// @Service
-// class AccountServiceImpl(
-//    private val securityService: SecurityService,
-// ) : AccountService {
-//
-//    val log = KotlinLogging.logger {}
+import com.fomichev.september.controller.dto.request.UserRequest
+import com.fomichev.september.enum.Roles
+import com.fomichev.september.exception.EmailWasAlreadyRegisteredException
+import com.fomichev.september.model.Role
+import com.fomichev.september.model.User
+import com.fomichev.september.repository.RoleRepository
+import com.fomichev.september.repository.UserRepository
+import com.fomichev.september.security.SecurityService
+import com.fomichev.september.service.user.UserService
+import mu.KotlinLogging
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+
+@Service
+class AccountServiceImpl(
+    private val securityService: SecurityService,
+    private val userRepository: UserRepository,
+    private val roleRepository: RoleRepository,
+    private val userService: UserService
+) : AccountService {
+
+    val log = KotlinLogging.logger {}
 
 //    @Transactional
 //    override fun getClientByEmail(email: String): Client {
@@ -16,32 +32,38 @@ package com.fomichev.september.service.account
 //        )
 //    }
 
-/**
- * Sign up
- */
-//    @Transactional
-//    override fun signUp(request: UserRequest): Client {
-//        if (clientRepository.getClientByEmail(request.email) == null) {
-//            val client = clientRepository.save(
-//                Client(
-//                    email = request.email,
-//                    name = request.name!!
+    /**
+     * Sign up
+     */
+    @Transactional
+    override fun signUp(request: UserRequest): User {
+        if (userRepository.findByUsername(request.email) == null) {
+        val newUser = userService.register(
+            User(
+                username = request.email,
+                password = request.password,
+                firstName = request.firstName,
+                lastName = request.lastName
+            )
+        )
+//        if (userRepository.findByUsername(request.email) == null) {
+//            val newUser = userRepository.save(
+//                User(
+//                    username = request.email,
+//                    password = request.password,
+//                    firstName = request.firstName,
+//                    lastName = request.lastName
 //                )
 //            )
-//            log.info("New client ${client.name} with id=${client.id} successfully signed up!")
-//            clientBackRepository.save(
-//                ClientBack(
-//                    client_id = client.id!!,
-//                    data = securityService.encryptPassword(request.password!!)
-//                )
-//            )
-//            return client
-//        } else throw EmailWasAlreadyRegisteredException(
-//            "Client with email ${request.email} was already registered" +
-//                "\nPlease, log in or click \"Forgot my password\"",
-//            null
-//        )
-//    }
+//            roleRepository.save(Role(Roles.USER.name, listOf(newUser)))
+        log.info("New client ${newUser.username} with id=${newUser.id} successfully signed up!")
+        return newUser
+        } else throw EmailWasAlreadyRegisteredException(
+            "Client with email ${request.email} was already registered" +
+                    "\nPlease, log in or click \"Forgot my password\"",
+            null
+        )
+    }
 
 //    /**
 //     * Log in
@@ -71,4 +93,4 @@ package com.fomichev.september.service.account
 //        clientBackRepository.save(clientData)
 //        return Pair(pass, encryptedPass)
 //    }
-// }
+}

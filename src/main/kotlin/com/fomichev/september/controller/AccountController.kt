@@ -3,7 +3,11 @@ package com.fomichev.september.controller
 import com.fomichev.september.controller.dto.request.UserRequest
 import com.fomichev.september.exception.EmailWasAlreadyRegisteredException
 import com.fomichev.september.exception.UnknownEmailException
+import com.fomichev.september.model.User
+import com.fomichev.september.service.account.AccountService
 import com.fomichev.september.service.notification.email.EmailNotificationService
+import com.fomichev.september.service.notification.email.templates.EmailTemplate
+import com.fomichev.september.service.user.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -13,32 +17,34 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@CrossOrigin(origins = ["http://localhost:5173"])
+//@CrossOrigin(origins = ["http://localhost:5173"])
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/v1/auth")
 class AccountController(
-//    private val accountService: AccountService,
+    private val userService: UserService,
     private val emailNotificationService: EmailNotificationService,
 ) {
 
-    @GetMapping("/sign_up")
-    fun getSignUpPage(): String {
-        return "sign_up"
-    }
-
-    @PostMapping("/sign_up")
+    @PostMapping("/signup")
     fun signIn(@RequestBody request: UserRequest): ResponseEntity<*> {
         if (request.password.equals("")) return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
         try {
-            // Save new client data
-//            val client = accountService.signUp(request)
-//             Notify new our client with Welcome template email
-//            emailNotificationService.notify(client, EmailTemplate.WELCOME, null)
+//          Save new client data
+            val newUser = userService.register(
+                User(
+                    username = request.email,
+                    password = request.password,
+                    firstName = request.firstName,
+                    lastName = request.lastName
+                )
+            )
+//            Notify new our client with Welcome template email
+//            emailNotificationService.notify(newUser, EmailTemplate.WELCOME, null)
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
                     "${request.email} was successfully registered!" +
-                        "\n${request.name}, welcome to the Journey Car Rent"
+                            "\n${request.email}, welcome to the Journey Car Rent"
                 )
         } catch (ar: EmailWasAlreadyRegisteredException) {
             // Client with requested email was already registered
@@ -48,7 +54,7 @@ class AccountController(
         }
     }
 
-    @GetMapping("/log_in")
+    @GetMapping("/login")
     fun getLogInPage(): String {
         return "log_in"
     }
