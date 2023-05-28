@@ -4,8 +4,8 @@
 
 create table cars (
     id BIGINT unique auto_increment not null,
-    created date not null,
-    updated date not null,
+    created timestamp not null,
+    updated timestamp default current_timestamp(),
     status varchar(20) not null,
 
     brand varchar(30) not null,

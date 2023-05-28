@@ -3,6 +3,7 @@ package com.fomichev.september.security.jwt
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.Instant
 import java.util.Date
 
 class JwtUser(
@@ -13,7 +14,7 @@ class JwtUser(
     private val password: String,
     private val authorities: Collection<GrantedAuthority>,
     private val enabled: Boolean,
-    private val lastPasswordResetDate: Date
+    private val lastPasswordResetDate: Instant
 ) : UserDetails {
 
     @JsonIgnore
@@ -56,5 +57,5 @@ class JwtUser(
     }
 
     @JsonIgnore
-    fun getLastPasswordResetDate(): Date = lastPasswordResetDate
+    fun getLastPasswordResetDate(): Instant = lastPasswordResetDate
 }

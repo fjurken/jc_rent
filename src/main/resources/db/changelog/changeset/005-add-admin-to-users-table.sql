@@ -14,8 +14,8 @@ INSERT INTO users(
 )
 VALUES(
     1,
-    current_date(),
-    current_date(),
+    current_timestamp(),
+    current_timestamp(),
     'ACTIVE',
     'admin_jcrent@gmail.com',
     'admin',
@@ -24,5 +24,5 @@ VALUES(
 );
 
 INSERT INTO user_roles(id, created, updated, status, user_id, role_id)
-VALUES(1, current_date(), current_date(), 'ACTIVE', 1, 1),
-(2, current_date(), current_date(), 'ACTIVE', 1, 2);
+VALUES(1, current_timestamp(), current_timestamp(), 'ACTIVE', 1, 1),
+(2, current_timestamp(), current_timestamp(), 'ACTIVE', 1, 2);

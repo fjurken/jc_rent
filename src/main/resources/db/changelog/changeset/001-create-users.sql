@@ -4,8 +4,8 @@
 
 create table users (
     id BIGINT unique auto_increment not null,
-    created date not null,
-    updated date not null,
+    created timestamp not null,
+    updated timestamp default current_timestamp(),
     status varchar(20) not null,
 
     username varchar(100) unique not null,

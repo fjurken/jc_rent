@@ -6,15 +6,15 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import java.util.Date
-import javax.persistence.Column
 import javax.persistence.EntityListeners
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
-import javax.persistence.Id
 import javax.persistence.MappedSuperclass
+import javax.persistence.Id
+import javax.persistence.Column
+import javax.persistence.Enumerated
+import javax.persistence.EnumType
+
 
 @MappedSuperclass
 @DynamicUpdate
@@ -28,11 +28,11 @@ open class BaseEntity(
 
     @CreatedDate
     @Column(name = "created")
-    var createdDate: Date? = Date.from(Instant.now()),
+    var createdDate: Instant? = Instant.now(),
 
     @LastModifiedDate
     @Column(name = "updated")
-    var updatedDate: Date? = Date.from(Instant.now()),
+    var updatedDate: Instant? = Instant.now(),
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

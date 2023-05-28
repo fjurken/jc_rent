@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 @Service
 interface UserService {
 
-    fun register(user: User): User
+    fun register(user: User)
 
     fun getAll(): List<User>
 

@@ -20,7 +20,7 @@ class UserServiceImpl(
     val log = KotlinLogging.logger { }
 
     @Transactional
-    override fun register(user: User): User {
+    override fun register(user: User) {
         val role = roleRepository.findByName("ROLE_USER")
         val userRoles = mutableListOf<Role>()
         userRoles.add(role)
@@ -32,8 +32,8 @@ class UserServiceImpl(
         val registeredUser = userRepository.save(user)
 
         log.info("User $registeredUser was successfully registered")
-
-        return registeredUser
+//
+//        return registeredUser
     }
 
     @Transactional

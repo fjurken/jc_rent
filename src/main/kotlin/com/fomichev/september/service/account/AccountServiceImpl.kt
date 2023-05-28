@@ -1,9 +1,7 @@
 package com.fomichev.september.service.account
 
 import com.fomichev.september.controller.dto.request.UserRequest
-import com.fomichev.september.enum.Roles
 import com.fomichev.september.exception.EmailWasAlreadyRegisteredException
-import com.fomichev.september.model.Role
 import com.fomichev.september.model.User
 import com.fomichev.september.repository.RoleRepository
 import com.fomichev.september.repository.UserRepository
@@ -36,7 +34,7 @@ class AccountServiceImpl(
      * Sign up
      */
     @Transactional
-    override fun signUp(request: UserRequest): User {
+    override fun signUp(request: UserRequest) {
         if (userRepository.findByUsername(request.email) == null) {
         val newUser = userService.register(
             User(
@@ -56,8 +54,8 @@ class AccountServiceImpl(
 //                )
 //            )
 //            roleRepository.save(Role(Roles.USER.name, listOf(newUser)))
-        log.info("New client ${newUser.username} with id=${newUser.id} successfully signed up!")
-        return newUser
+//        log.info("New client ${newUser.username} with id=${newUser.id} successfully signed up!")
+//        return newUser
         } else throw EmailWasAlreadyRegisteredException(
             "Client with email ${request.email} was already registered" +
                     "\nPlease, log in or click \"Forgot my password\"",

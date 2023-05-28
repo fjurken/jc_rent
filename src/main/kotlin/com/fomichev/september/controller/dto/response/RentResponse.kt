@@ -6,8 +6,8 @@ import java.util.*
 
 data class RentResponse(
     val id: Long,
-    val createdDate: Date,
-    val updatedDate: Date,
+    val createdDate: Instant,
+    val updatedDate: Instant,
     val car: Car,
     val startDate: Instant,
     val endDate: Instant,

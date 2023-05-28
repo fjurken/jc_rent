@@ -1,11 +1,10 @@
 package com.fomichev.september.service.account
 
 import com.fomichev.september.controller.dto.request.UserRequest
-import com.fomichev.september.model.User
 
 interface AccountService {
 
-    fun signUp(request: UserRequest): User
+    fun signUp(request: UserRequest)
 
 //    fun logIn(request: UserRequest): Boolean
 
