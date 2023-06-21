@@ -1,6 +1,7 @@
 package com.fomichev.september.service.user
 
 import com.fomichev.september.enum.EntityStatus
+import com.fomichev.september.enum.Roles
 import com.fomichev.september.model.Role
 import com.fomichev.september.model.User
 import com.fomichev.september.repository.RoleRepository
@@ -21,7 +22,7 @@ class UserServiceImpl(
 
     @Transactional
     override fun register(user: User) {
-        val role = roleRepository.findByName("ROLE_USER")
+        val role = roleRepository.findByName(Roles.USER.text)
         val userRoles = mutableListOf<Role>()
         userRoles.add(role)
 
