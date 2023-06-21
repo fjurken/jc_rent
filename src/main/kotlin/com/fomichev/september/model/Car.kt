@@ -1,9 +1,18 @@
 package com.fomichev.september.model
 
-import com.fomichev.september.enum.*
+import com.fomichev.september.enum.CarBrand
+import com.fomichev.september.enum.CarColor
+import com.fomichev.september.enum.CarType
+import com.fomichev.september.enum.EngineType
+import com.fomichev.september.enum.Transmission
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.EntityListeners
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.Table
 
 @Entity
 @DynamicUpdate
@@ -46,15 +55,15 @@ class Car(
 
     override fun toString(): String {
         return "" +
-                "Car Id=$id, " +
-                "brand=$brand, " +
-                "model=$model, " +
-                "car type=$carType, " +
-                "color=$color, " +
-                "engine type=$engineType, " +
-                "engine capacity=$engineCapacity, " +
-                "engine power=$enginePower, " +
-                "transmission=$transmission, " +
-                "licence plate=$licencePlate, "
+            "Car Id=$id, " +
+            "brand=$brand, " +
+            "model=$model, " +
+            "car type=$carType, " +
+            "color=$color, " +
+            "engine type=$engineType, " +
+            "engine capacity=$engineCapacity, " +
+            "engine power=$enginePower, " +
+            "transmission=$transmission, " +
+            "licence plate=$licencePlate, "
     }
 }

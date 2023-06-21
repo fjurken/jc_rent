@@ -2,7 +2,6 @@ package com.fomichev.september.controller.dto.response
 
 import com.fomichev.september.model.Car
 import java.time.Instant
-import java.util.*
 
 data class RentResponse(
     val id: Long,

@@ -6,7 +6,6 @@ import com.fomichev.september.controller.dto.request.UpdateCarRequest
 import com.fomichev.september.controller.dto.response.RentResponse
 import com.fomichev.september.mapper.RentMapper
 import com.fomichev.september.model.Car
-import com.fomichev.september.model.Rent
 import com.fomichev.september.service.AbstractService
 import com.fomichev.september.service.car.CarService
 import com.fomichev.september.service.price.PriceService
@@ -33,6 +32,7 @@ class AdminController(
     private val rentMapper: RentMapper
 ) : AbstractService() {
 
+    /*Add a new car*/
     @PostMapping("/catalog/add_car")
     fun addCar(@RequestBody car: CarRequest) {
         carService.addNewCar(
@@ -50,32 +50,38 @@ class AdminController(
         )
     }
 
+    /*Update car specs*/
     @PatchMapping("catalog/update_car")
     fun updateCar(@RequestBody car: UpdateCarRequest) {
         carService.updateCar(car)
     }
 
+    /*Get list of all the cars*/
     @GetMapping("catalog/all_cars")
     fun getAllCars(): List<Car> {
-        return carService.getAllCars()?: listOf()
+        return carService.getAllCars() ?: listOf()
     }
 
+    /*Delete a car*/
     @DeleteMapping("catalog/delete/{carId}")
     fun deleteCar(@PathVariable carId: Long) {
         carService.deleteCar(carId)
     }
 
+    /*Start rent a car*/
     @PostMapping("rent")
     fun rent(@RequestBody request: RentRequest) {
         carRentService.startRent(request)
     }
 
+    /*Get list of all active rents*/
     @GetMapping("rent/active")
     fun getActiveRentList(): List<RentResponse> {
-        val activeRents =  carRentService.getActiveRentList()
+        val activeRents = carRentService.getActiveRentList()
         return rentMapper.rentToRentResponse(activeRents)
     }
 
+    /*Finish rent by ID*/
     @PatchMapping("rent/finish/{rentId}")
     fun finishRent(@PathVariable rentId: Long) {
         carRentService.finishRent(rentId)

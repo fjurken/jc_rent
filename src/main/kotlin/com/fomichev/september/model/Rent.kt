@@ -26,4 +26,4 @@ class Rent(
     @Column(name = "finished_date")
     var finishedDate: Instant? = null,
 
-    ): BaseEntity()
+) : BaseEntity()

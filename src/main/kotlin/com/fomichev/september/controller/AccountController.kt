@@ -1,15 +1,12 @@
 package com.fomichev.september.controller
 
 import com.fomichev.september.controller.dto.request.UserRequest
-import com.fomichev.september.exception.EmailWasAlreadyRegisteredException
+import com.fomichev.september.enum.Roles
 import com.fomichev.september.exception.UnknownEmailException
 import com.fomichev.september.model.Role
 import com.fomichev.september.model.User
 import com.fomichev.september.repository.RoleRepository
 import com.fomichev.september.repository.UserRepository
-import com.fomichev.september.service.notification.email.EmailNotificationService
-import com.fomichev.september.service.user.UserService
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,15 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.time.Instant
-import java.util.*
 
-//@CrossOrigin(origins = ["http://localhost:5173"])
+// @CrossOrigin(origins = ["http://localhost:5173"])
 @RestController
 @RequestMapping("/api/v1/auth/")
 class AccountController(
-    private val userService: UserService,
-    private val emailNotificationService: EmailNotificationService,
     private val userRepository: UserRepository,
     private val passwordEncoder: BCryptPasswordEncoder,
     private val roleRepository: RoleRepository
@@ -34,7 +27,7 @@ class AccountController(
     @PostMapping("signup")
 //    fun signIn(@RequestBody request: UserRequest): ResponseEntity<*> {
     fun signIn(@RequestBody request: UserRequest) {
-        val role = roleRepository.findByName("ROLE_USER")
+        val role = roleRepository.findByName(Roles.USER.text)
         val userRoles = mutableListOf<Role>()
         userRoles.add(role)
 

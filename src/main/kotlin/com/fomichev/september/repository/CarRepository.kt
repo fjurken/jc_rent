@@ -15,5 +15,4 @@ interface CarRepository : JpaRepository<Car, Long> {
         """
     )
     fun getAvailableCars(): List<Car>?
-
 }

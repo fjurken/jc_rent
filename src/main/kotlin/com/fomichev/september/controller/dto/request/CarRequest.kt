@@ -1,7 +1,11 @@
 package com.fomichev.september.controller.dto.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fomichev.september.enum.*
+import com.fomichev.september.enum.CarBrand
+import com.fomichev.september.enum.CarColor
+import com.fomichev.september.enum.CarType
+import com.fomichev.september.enum.EngineType
+import com.fomichev.september.enum.Transmission
 
 data class CarRequest(
     @JsonProperty("brand")

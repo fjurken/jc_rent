@@ -36,14 +36,14 @@ class AccountServiceImpl(
     @Transactional
     override fun signUp(request: UserRequest) {
         if (userRepository.findByUsername(request.email) == null) {
-        val newUser = userService.register(
-            User(
-                username = request.email,
-                password = request.password,
-                firstName = request.firstName,
-                lastName = request.lastName
+            val newUser = userService.register(
+                User(
+                    username = request.email,
+                    password = request.password,
+                    firstName = request.firstName,
+                    lastName = request.lastName
+                )
             )
-        )
 //        if (userRepository.findByUsername(request.email) == null) {
 //            val newUser = userRepository.save(
 //                User(
@@ -58,7 +58,7 @@ class AccountServiceImpl(
 //        return newUser
         } else throw EmailWasAlreadyRegisteredException(
             "Client with email ${request.email} was already registered" +
-                    "\nPlease, log in or click \"Forgot my password\"",
+                "\nPlease, log in or click \"Forgot my password\"",
             null
         )
     }
