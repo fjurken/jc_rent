@@ -1,5 +1,6 @@
 package com.fomichev.september.model
 
+import com.fomichev.september.enum.EntityStatus
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
@@ -25,5 +26,7 @@ class Rent(
 
     @Column(name = "finished_date")
     var finishedDate: Instant? = null,
+
+    override var status: EntityStatus = EntityStatus.NOT_ACTIVE
 
 ) : BaseEntity()

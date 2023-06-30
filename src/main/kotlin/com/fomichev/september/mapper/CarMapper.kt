@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class CarMapper {
 
-    fun toAvailableListCarResponse(cars: List<Car>): List<CarCatalog> {
+    fun toAvailableListCarResponse(cars: List<Car>, price: Map<Long, Double>): List<CarCatalog> {
         val result = mutableListOf<CarCatalog>()
         cars.map {
             /*TODO fix convert Long to Int*/
@@ -16,7 +16,9 @@ class CarMapper {
                     id = it.id!!.toInt(),
                     car = it.brand.displayName + " " + it.model,
                     color = it.color.name,
-                    price = 10.0
+                    engine = "${it.engineCapacity}L, ${it.enginePower}hp",
+                    transmission = it.transmission.name,
+                    price = price.getValue(it.id!!)
                 )
             )
         }

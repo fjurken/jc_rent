@@ -1,6 +1,6 @@
 package com.fomichev.september.service.car
 
-import com.fomichev.september.controller.dto.request.RentRequest
+import com.fomichev.september.controller.dto.request.CarRentRequest
 import com.fomichev.september.controller.dto.request.UpdateCarRequest
 import com.fomichev.september.model.Car
 
@@ -18,7 +18,7 @@ interface CarService {
 
     fun getListOfAvailableCars(): List<Car>?
 
-    fun startRentCar(request: RentRequest)
+    fun requestRentCar(request: CarRentRequest)
 
     fun finishRentCar(carId: Long)
 }

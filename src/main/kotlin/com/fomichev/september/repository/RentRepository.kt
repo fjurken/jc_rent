@@ -14,6 +14,16 @@ interface RentRepository : JpaRepository<Rent, Long> {
         """
         select r from Rent r
         where r.finishedDate = null
+        and r.status = com.fomichev.september.enum.EntityStatus.NOT_ACTIVE
+        """
+    )
+    fun getRequestedRentList(): List<Rent>
+
+    @Query(
+        """
+        select r from Rent r
+        where r.finishedDate = null
+        and r.status = com.fomichev.september.enum.EntityStatus.ACTIVE
     """
     )
     fun getActiveRentList(): List<Rent>

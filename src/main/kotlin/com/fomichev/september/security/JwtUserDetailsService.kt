@@ -21,8 +21,7 @@ class JwtUserDetailsService(
         val user = userRepository.findByUsername(username!!)
             ?: throw UsernameNotFoundException("User with username: $username not found")
 
-        val jwtUser = JwtUserFactory().create(user)
-        log.info("User with name $username successfully loaded")
-        return jwtUser
+        return JwtUserFactory().create(user)
+//        log.info("User with name $username successfully loaded")
     }
 }

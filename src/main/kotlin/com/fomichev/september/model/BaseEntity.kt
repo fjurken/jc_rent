@@ -35,5 +35,5 @@ open class BaseEntity(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    var status: EntityStatus = EntityStatus.ACTIVE
+    open var status: EntityStatus = EntityStatus.ACTIVE
 )

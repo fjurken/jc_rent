@@ -1,9 +1,11 @@
 package com.fomichev.september.controller
 
 import com.fomichev.september.controller.dto.request.CarRequest
-import com.fomichev.september.controller.dto.request.RentRequest
+import com.fomichev.september.controller.dto.request.PriceRequest
 import com.fomichev.september.controller.dto.request.UpdateCarRequest
 import com.fomichev.september.controller.dto.response.RentResponse
+import com.fomichev.september.enum.EntityStatus
+import com.fomichev.september.exception.RentException
 import com.fomichev.september.mapper.RentMapper
 import com.fomichev.september.model.Car
 import com.fomichev.september.service.AbstractService
@@ -68,32 +70,51 @@ class AdminController(
         carService.deleteCar(carId)
     }
 
-    /*Start rent a car*/
-    @PostMapping("rent")
-    fun rent(@RequestBody request: RentRequest) {
-        carRentService.startRent(request)
+    /**
+     * Start rent a car
+     * */
+    @PatchMapping("rent/start/{rentId}")
+    fun rent(@PathVariable rentId: Long) {
+        val rent =
+            carRentService.getRentById(rentId) ?: throw RentException("Rent with id=$rentId doesn't exist!", null)
+        if (rent.status == EntityStatus.ACTIVE || rent.finishedDate != null) {
+            throw RentException("Rent with id=$rentId was already finished!", null)
+        }
+        carRentService.startRent(rentId)
     }
 
-    /*Get list of all active rents*/
+    /**
+     * Get list of all requested rents
+     * */
+    @GetMapping("rent/requested")
+    fun getRequestedRentList(): List<RentResponse> {
+        val requestedRents = carRentService.getRequestedRentList()
+        return rentMapper.rentToRentResponse(requestedRents)
+    }
+
+    /**
+     * Get list of all active rents
+     * */
     @GetMapping("rent/active")
     fun getActiveRentList(): List<RentResponse> {
         val activeRents = carRentService.getActiveRentList()
         return rentMapper.rentToRentResponse(activeRents)
     }
 
-    /*Finish rent by ID*/
+    /**
+     * Finish rent by ID
+     * */
     @PatchMapping("rent/finish/{rentId}")
     fun finishRent(@PathVariable rentId: Long) {
         carRentService.finishRent(rentId)
     }
 
-    @PatchMapping("/price/update/{carId}")
+    @PatchMapping("/price/update")
     fun updateCarPrice(
-        @PathVariable carId: Long,
-        @RequestBody price: Double
+        @RequestBody request: PriceRequest
     ): ResponseEntity<*> {
-        priceService.updateCarPrice(carId, price)
-        val newPrice = priceService.getPriceByCarId(carId)
-        return ResponseEntity.ok().body("New price for carId=$carId is $newPrice")
+        priceService.updateCarPrice(request)
+        val newPrice = priceService.getPriceByCarId(request.carId)
+        return ResponseEntity.ok().body("New price for carId=${request.carId} is $newPrice")
     }
 }

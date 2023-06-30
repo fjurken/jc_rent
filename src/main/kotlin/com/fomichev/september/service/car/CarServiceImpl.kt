@@ -1,6 +1,6 @@
 package com.fomichev.september.service.car
 
-import com.fomichev.september.controller.dto.request.RentRequest
+import com.fomichev.september.controller.dto.request.CarRentRequest
 import com.fomichev.september.controller.dto.request.UpdateCarRequest
 import com.fomichev.september.exception.NoSuchCarException
 import com.fomichev.september.model.Car
@@ -50,9 +50,9 @@ class CarServiceImpl(
     }
 
     @Transactional
-    override fun startRentCar(request: RentRequest) {
+    override fun requestRentCar(request: CarRentRequest) {
         println("Request for rent car=${getCar(request.carId)}, from: ${request.startDate} to: ${request.endDate}")
-        carRentService.startRent(request)
+        carRentService.requestRent(request)
     }
 
     @Transactional

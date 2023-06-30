@@ -8,5 +8,7 @@ data class CarCatalog(
     val id: Int,
     val car: String,
     val color: String,
+    val engine: String,
+    val transmission: String,
     val price: Double
 )
