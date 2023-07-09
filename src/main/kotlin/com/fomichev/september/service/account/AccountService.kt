@@ -8,7 +8,7 @@ interface AccountService {
 
 //    fun logIn(request: UserRequest): Boolean
 
-//    fun restorePassword(client: Client): Pair<String, String>
+    fun restorePassword(username: String)
 
 //    fun getClientByEmail(email: String): Client
 }

@@ -66,4 +66,9 @@ class UserServiceImpl(
         userRepository.deleteById(id)
         log.info("User successfully deleted by id $id")
     }
+
+    @Transactional
+    override fun save(user: User) {
+        userRepository.save(user)
+    }
 }

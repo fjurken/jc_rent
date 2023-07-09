@@ -10,6 +10,8 @@ interface UserService {
 
     fun getAll(): List<User>
 
+    fun save(user: User)
+
     fun findByUsername(username: String): User?
 
     fun findById(id: Long): User?

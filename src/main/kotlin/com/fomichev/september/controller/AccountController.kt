@@ -2,14 +2,24 @@ package com.fomichev.september.controller
 
 import com.fomichev.september.controller.dto.request.UserRequest
 import com.fomichev.september.enum.Roles
+import com.fomichev.september.exception.EmailWasAlreadyRegisteredException
 import com.fomichev.september.exception.UnknownEmailException
 import com.fomichev.september.model.Role
 import com.fomichev.september.model.User
 import com.fomichev.september.repository.RoleRepository
 import com.fomichev.september.repository.UserRepository
+import com.fomichev.september.service.account.AccountService
+import com.fomichev.september.service.notification.email.EmailNotificationService
+import com.fomichev.september.service.notification.email.templates.EmailTemplate
+import net.bytebuddy.utility.RandomString
+import org.apache.commons.lang3.RandomStringUtils
+import org.apache.commons.text.RandomStringGenerator
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,17 +31,19 @@ import org.springframework.web.bind.annotation.RestController
 class AccountController(
     private val userRepository: UserRepository,
     private val passwordEncoder: BCryptPasswordEncoder,
-    private val roleRepository: RoleRepository
+    private val roleRepository: RoleRepository,
+    private val emailNotificationService: EmailNotificationService,
+    private val accountService: AccountService
 ) {
 
     @PostMapping("signup")
-//    fun signIn(@RequestBody request: UserRequest): ResponseEntity<*> {
-    fun signIn(@RequestBody request: UserRequest) {
+    fun signIn(@RequestBody request: UserRequest): ResponseEntity<*> {
+//    fun signIn(@RequestBody request: UserRequest) {
         val role = roleRepository.findByName(Roles.USER.text)
         val userRoles = mutableListOf<Role>()
         userRoles.add(role)
 
-        userRepository.save(
+        val newUser = userRepository.save(
             User(
                 username = request.email,
                 password = passwordEncoder.encode(request.password),
@@ -40,31 +52,23 @@ class AccountController(
                 roles = userRoles
             )
         )
-//        if (request.password.equals("")) return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
-//        try {
-//          Save new client data
-//            val newUser = userService.register(
-//                User(
-//                    username = request.email,
-//                    password = request.password,
-//                    firstName = request.firstName,
-//                    lastName = request.lastName
-//                )
-//            )
-//            Notify new our client with Welcome template email
-//            emailNotificationService.notify(newUser, EmailTemplate.WELCOME, null)
-//            return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(
-//                    "${request.email} was successfully registered!" +
-//                            "\n${request.email}, welcome to the Journey Car Rent"
-//                )
-//        } catch (ar: EmailWasAlreadyRegisteredException) {
-        // Client with requested email was already registered
-//            return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(ar.message)
-//        }
+        if (request.password == "") return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
+        try {
+
+            /*Notify new our client with Welcome template email*/
+            emailNotificationService.notify(newUser, EmailTemplate.WELCOME, null)
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                    "${request.email} was successfully registered!" +
+                            "\n${request.email}, welcome to the Journey Car Rent"
+                )
+        } catch (ar: EmailWasAlreadyRegisteredException) {
+            /*Client with requested email was already registered*/
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ar.message)
+        }
     }
 
     @GetMapping("/login")
@@ -86,17 +90,23 @@ class AccountController(
 //        }
 //    }
 
-    @PostMapping("/restore_password")
-    fun restorePassword(@RequestBody request: UserRequest): ResponseEntity<*> {
+    @PostMapping("/restore_password/{username}")
+    fun restorePassword(@PathVariable username: String): ResponseEntity<*> {
         return try {
-//            val client = accountService.getClientByEmail(request.email)
-//            val pass = accountService.restorePassword(client)
-//            emailNotificationService.notify(client, EmailTemplate.RESTORE_PASSWORD, mapOf(Pair("pass", pass.first)))
-            ResponseEntity.ok().body("Password was restored, please, check your email")
+//            val user = userRepository.findByUsername(request.email)
+//                ?: throw UsernameNotFoundException("User with username ${request.email} not found")
+//            val pass = BCryptPasswordEncoder().encode(RandomStringUtils.random(12))
+//            emailNotificationService.notify(user, EmailTemplate.RESTORE_PASSWORD, mapOf(Pair("pass", pass)))
+            accountService.restorePassword(username)
+            ResponseEntity.ok().body("Password has been restored, please, check your email")
         } catch (ue: UnknownEmailException) {
             ResponseEntity
                 .ok()
                 .body(ue.message)
+        } catch (uu: UsernameNotFoundException) {
+            ResponseEntity
+                .ok()
+                .body(uu.message)
         }
     }
 

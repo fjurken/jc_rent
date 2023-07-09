@@ -6,8 +6,13 @@ import com.fomichev.september.model.User
 import com.fomichev.september.repository.RoleRepository
 import com.fomichev.september.repository.UserRepository
 import com.fomichev.september.security.SecurityService
+import com.fomichev.september.service.notification.email.EmailNotificationService
+import com.fomichev.september.service.notification.email.templates.EmailTemplate
 import com.fomichev.september.service.user.UserService
 import mu.KotlinLogging
+import org.apache.commons.lang3.RandomStringUtils
+import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,7 +21,8 @@ class AccountServiceImpl(
     private val securityService: SecurityService,
     private val userRepository: UserRepository,
     private val roleRepository: RoleRepository,
-    private val userService: UserService
+    private val userService: UserService,
+    private val emailNotificationService: EmailNotificationService
 ) : AccountService {
 
     val log = KotlinLogging.logger {}
@@ -58,7 +64,7 @@ class AccountServiceImpl(
 //        return newUser
         } else throw EmailWasAlreadyRegisteredException(
             "Client with email ${request.email} was already registered" +
-                "\nPlease, log in or click \"Forgot my password\"",
+                    "\nPlease, log in or click \"Forgot my password\"",
             null
         )
     }
@@ -77,18 +83,16 @@ class AccountServiceImpl(
 //        return encryptedPass == securityService.encryptPassword(request.password!!)
 //    }
 
-//    /**
-//     * Restore password
-//     */
-//    override fun restorePassword(client: Client): Pair<String, String> {
-//        val clientData = clientBackRepository.getByClientId(client.id!!)
-//            ?: throw ClientBackDataIsEmptyException(
-//                "ClientBack data for client $client is empty!", null
-//            )
-//        val pass = RandomString.make()
-//        val encryptedPass = securityService.encryptPassword(pass)
-//        clientData.data = encryptedPass
-//        clientBackRepository.save(clientData)
-//        return Pair(pass, encryptedPass)
-//    }
+    /**
+     * Restore password
+     */
+    override fun restorePassword(username: String) {
+        val user = userService.findByUsername(username)
+            ?: throw UsernameNotFoundException("User with username $username not found")
+
+        val newPass = RandomStringUtils.randomAscii(12)
+        user.password = BCryptPasswordEncoder().encode(newPass)
+        userService.save(user)
+        emailNotificationService.notify(user, EmailTemplate.RESTORE_PASSWORD, mapOf(Pair("pass", newPass)))
+    }
 }

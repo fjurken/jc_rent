@@ -1,6 +1,7 @@
 package com.fomichev.september.service.notification.email.kafka
 
 import com.fomichev.september.service.notification.email.dto.Email
+import com.fomichev.september.service.notification.email.templates.JsonSerializerWithJTM
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -18,8 +19,8 @@ class NotificationKafkaConfiguration {
         config[ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION] = "3"
         config[ProducerConfig.RETRIES_CONFIG] = "3"
         config[ProducerConfig.RETRY_BACKOFF_MS_CONFIG] = "500"
-//        config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = JsonSerializerWithJTM::class.java
-//        config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JsonSerializerWithJTM::class.java
+        config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = JsonSerializerWithJTM::class.java
+        config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JsonSerializerWithJTM::class.java
 
         return DefaultKafkaProducerFactory(config)
     }

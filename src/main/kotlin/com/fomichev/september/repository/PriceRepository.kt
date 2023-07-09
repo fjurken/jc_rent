@@ -26,5 +26,4 @@ interface PriceRepository : JpaRepository<Price, Long> {
         """
     )
     fun getListPricesByCarIds(@Param("carIds") carIds: List<Long>): List<Map<String, Any>>
-
 }
