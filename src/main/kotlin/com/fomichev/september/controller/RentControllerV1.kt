@@ -40,7 +40,7 @@ class RentControllerV1(
     fun sendEmail() {
         val defaultClient = Configuration.getDefaultApiClient()
         val apiKey = defaultClient.getAuthentication("api-key") as ApiKeyAuth
-        apiKey.apiKey = "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"
+        apiKey.apiKey = "apiKey"
 
         val accApi = AccountApi()
         val result = accApi.account
