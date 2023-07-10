@@ -1,4 +1,4 @@
-
+import org.jetbrains.kotlin.ir.backend.js.compile
 
 plugins {
     idea
@@ -50,6 +50,8 @@ dependencies {
     implementation("org.liquibase:liquibase-core:4.20.0")
     implementation("org.yaml:snakeyaml:1.32")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
+//    implementation("com.squareup.okhttp3:okhttp:3.14.9")
+    compileOnly("com.sendinblue:sib-api-v3-sdk:7.0.0")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

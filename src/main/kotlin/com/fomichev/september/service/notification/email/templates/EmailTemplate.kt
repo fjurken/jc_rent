@@ -4,5 +4,6 @@ enum class EmailTemplate {
     WELCOME,
     PASSWORD_CHANGED,
     EMAIL_CHANGED,
-    RESTORE_PASSWORD
+    RESTORE_PASSWORD,
+    RENT_REQUEST
 }

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import sendinblue.Configuration
+import sendinblue.auth.ApiKeyAuth
+import sibApi.AccountApi
+
 
 @RestController
 @RequestMapping("/api/v1/catalog/")
@@ -30,5 +34,16 @@ class RentControllerV1(
     @PostMapping("rent")
     fun rent(@RequestBody request: CarRentRequest) {
         carService.requestRentCar(request)
+    }
+
+    @PostMapping("brevo")
+    fun sendEmail() {
+        val defaultClient = Configuration.getDefaultApiClient()
+        val apiKey = defaultClient.getAuthentication("api-key") as ApiKeyAuth
+        apiKey.apiKey = "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"
+
+        val accApi = AccountApi()
+        val result = accApi.account
+        println(result)
     }
 }
