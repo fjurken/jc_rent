@@ -6,7 +6,7 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 
 @Component
- class WelcomeMail(notificationKafkaTemplate: KafkaTemplate<String, Email>) : EmailGenerator(notificationKafkaTemplate) {
+class WelcomeMail(notificationKafkaTemplate: KafkaTemplate<String, Email>) : EmailGenerator(notificationKafkaTemplate) {
 
     override fun composeEmail(user: User, payload: Map<String, String>?): Email {
         val email = Email(
@@ -19,4 +19,4 @@ import org.springframework.stereotype.Component
     }
 
     override fun getMyCode(): EmailTemplate = EmailTemplate.WELCOME
- }
+}

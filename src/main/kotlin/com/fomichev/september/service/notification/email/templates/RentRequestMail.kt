@@ -14,13 +14,12 @@ class RentRequestMail(
             emailAddress = user.username,
             templateName = getMyCode().name,
             htmlData = "Hi, ${user.username}, we have got request for car rent.\n" +
-                    "Request data:\n" +
-                    "${payload?.get("date")},\n" +
-                    "${payload?.get("car")},\n" +
-                    "${payload?.get("total")}."
+                "Request data:\n" +
+                "${payload?.get("date")},\n" +
+                "${payload?.get("car")},\n" +
+                "${payload?.get("total")}."
         )
     }
 
     override fun getMyCode(): EmailTemplate = EmailTemplate.RENT_REQUEST
-
 }

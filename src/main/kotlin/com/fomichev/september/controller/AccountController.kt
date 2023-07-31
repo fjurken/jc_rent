@@ -11,9 +11,6 @@ import com.fomichev.september.repository.UserRepository
 import com.fomichev.september.service.account.AccountService
 import com.fomichev.september.service.notification.email.EmailNotificationService
 import com.fomichev.september.service.notification.email.templates.EmailTemplate
-import net.bytebuddy.utility.RandomString
-import org.apache.commons.lang3.RandomStringUtils
-import org.apache.commons.text.RandomStringGenerator
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -61,7 +58,7 @@ class AccountController(
                 .status(HttpStatus.OK)
                 .body(
                     "${request.email} was successfully registered!" +
-                            "\n${request.email}, welcome to the Journey Car Rent"
+                        "\n${request.email}, welcome to the Journey Car Rent"
                 )
         } catch (ar: EmailWasAlreadyRegisteredException) {
             /*Client with requested email was already registered*/

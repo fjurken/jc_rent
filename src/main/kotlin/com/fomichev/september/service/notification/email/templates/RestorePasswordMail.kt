@@ -6,11 +6,11 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 
 @Component
- class RestorePasswordMail(
+class RestorePasswordMail(
     notificationKafkaTemplate: KafkaTemplate<String, Email>
- ) : EmailGenerator(
+) : EmailGenerator(
     notificationKafkaTemplate
- ) {
+) {
 
     override fun composeEmail(user: User, payload: Map<String, String>?): Email {
         return Email(
@@ -22,4 +22,4 @@ import org.springframework.stereotype.Component
     }
 
     override fun getMyCode(): EmailTemplate = EmailTemplate.RESTORE_PASSWORD
- }
+}

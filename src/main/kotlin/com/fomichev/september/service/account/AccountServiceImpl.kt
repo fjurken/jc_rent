@@ -64,7 +64,7 @@ class AccountServiceImpl(
 //        return newUser
         } else throw EmailWasAlreadyRegisteredException(
             "Client with email ${request.email} was already registered" +
-                    "\nPlease, log in or click \"Forgot my password\"",
+                "\nPlease, log in or click \"Forgot my password\"",
             null
         )
     }
