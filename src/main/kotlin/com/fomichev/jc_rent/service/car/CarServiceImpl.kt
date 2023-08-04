@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
-import javax.persistence.EntityNotFoundException
 
 @Service
 class CarServiceImpl(
@@ -71,8 +70,10 @@ class CarServiceImpl(
         val user = userService.findByUsername(SecurityContextHolder.getContext().authentication.name)
         val car = getCar(request.carId)
         val duration = Duration.between(request.startDate, request.endDate).toDays()
-        val price = duration * (priceService.getPriceByCarId(car!!.id!!)
-            ?: throw RentException("Chosen car doesn't allowed to be rented, please try again later", null))
+        val price = duration * (
+            priceService.getPriceByCarId(car!!.id!!)
+                ?: throw RentException("Chosen car doesn't allowed to be rented, please try again later", null)
+            )
 
         /*Notification*/
         val payload = mutableMapOf<String, String>()
