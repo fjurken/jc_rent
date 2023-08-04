@@ -1,0 +1,12 @@
+package com.fomichev.jc_rent.configuration
+
+import io.jsonwebtoken.Jwts
+import org.springframework.core.convert.converter.Converter
+import org.springframework.security.authentication.AbstractAuthenticationToken
+
+class CustomJwtAuthenticationConverter : Converter<Jwts, AbstractAuthenticationToken> {
+
+    override fun convert(source: Jwts): AbstractAuthenticationToken? {
+        TODO("Not yet implemented")
+    }
+}

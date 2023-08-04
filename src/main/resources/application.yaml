@@ -18,9 +18,9 @@ spring:
 
 logging:
   level:
-    com.fomichev.september: DEBUG
+    com.fomichev.jc_rent: DEBUG
 
 jwt:
   token:
-    secret: september
+    secret: jc_rent
     expired: 3600000

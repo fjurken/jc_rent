@@ -1,0 +1,16 @@
+package com.fomichev.jc_rent.controller.dto.request
+
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.Instant
+
+data class CarRentRequest(
+
+    @JsonProperty("carId")
+    val carId: Long,
+
+    @JsonProperty("startDate")
+    val startDate: Instant,
+
+    @JsonProperty("endDate")
+    val endDate: Instant
+)

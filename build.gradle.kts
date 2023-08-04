@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.10"
     kotlin("plugin.jpa") version "1.6.10"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    id("org.sonarqube") version "4.3.0.3225"
 }
 
 group = "com.fomichev"
