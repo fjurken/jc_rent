@@ -14,16 +14,18 @@ interface PriceRepository : JpaRepository<Price, Long> {
         select p.price
         from Price p
         where car_id = :carId
-    """
+    """,
+        nativeQuery = true
     )
     fun getPriceByCar(@Param("carId") carId: Long): Double?
 
     @Query(
         """
-            select p.carId as carId, p.price as price
-            from Price p
+            select car_id, price
+            from price p
             where car_id in :carIds
-        """
+        """,
+        nativeQuery = true
     )
     fun getListPricesByCarIds(@Param("carIds") carIds: List<Long>): List<Map<String, Any>>
 }

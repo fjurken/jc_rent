@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 class AuthenticationControllerV1(
     private val authenticationManager: AuthenticationManager,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val userService: UserService
+    private val userService: UserService,
 ) {
 
     @PostMapping("login")

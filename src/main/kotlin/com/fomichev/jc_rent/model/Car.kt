@@ -5,14 +5,14 @@ import com.fomichev.jc_rent.enum.CarColor
 import com.fomichev.jc_rent.enum.CarType
 import com.fomichev.jc_rent.enum.EngineType
 import com.fomichev.jc_rent.enum.Transmission
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EntityListeners
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Table
 
 @Entity
 @DynamicUpdate

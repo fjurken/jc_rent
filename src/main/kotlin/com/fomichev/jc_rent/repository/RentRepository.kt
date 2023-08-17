@@ -34,7 +34,8 @@ interface RentRepository : JpaRepository<Rent, Long> {
             update Rent r
             set r.finishedDate = current_timestamp()
             where r.id = :rentId
-        """
+        """,
+        nativeQuery = true
     )
     fun finishRent(@Param("rentId") rentId: Long)
 }

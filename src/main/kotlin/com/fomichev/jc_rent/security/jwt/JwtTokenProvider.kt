@@ -5,6 +5,10 @@ import com.fomichev.jc_rent.security.JwtUserDetailsService
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.io.Decoders
+import io.jsonwebtoken.security.Keys
+import jakarta.annotation.PostConstruct
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpHeaders
@@ -13,11 +17,10 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import java.io.Serializable
+import java.security.Key
 import java.time.Instant
 import java.util.Base64
 import java.util.Date
-import javax.annotation.PostConstruct
-import javax.servlet.http.HttpServletRequest
 
 @Component
 class JwtTokenProvider(
@@ -50,8 +53,13 @@ class JwtTokenProvider(
             .setClaims(claims)
             .setIssuedAt(Date.from(Instant.now()))
             .setExpiration(Date.from(Instant.now().plusMillis(validityInMilliseconds)))
-            .signWith(SignatureAlgorithm.HS256, secret)
+            .signWith(getSignKey(), SignatureAlgorithm.HS256)
             .compact()
+    }
+
+    private fun getSignKey(): Key {
+        val keyBytes = Decoders.BASE64.decode(secret)
+        return Keys.hmacShaKeyFor(keyBytes)
     }
 
     fun getAuthentication(token: String): Authentication {

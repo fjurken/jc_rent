@@ -25,6 +25,6 @@ class PriceServiceImpl(
     @Transactional
     override fun getPricesOfCarsByIds(carIds: List<Long?>): Map<Long, Double> {
         val prices: List<Map<String, Any>> = priceRepository.getListPricesByCarIds(carIds.filterNotNull())
-        return prices.associate { it["carId"] as Long to it["price"] as Double }
+        return prices.associate { it["car_id"] as Long to it["price"] as Double }
     }
 }

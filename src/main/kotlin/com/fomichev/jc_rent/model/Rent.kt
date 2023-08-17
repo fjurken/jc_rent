@@ -1,13 +1,13 @@
 package com.fomichev.jc_rent.model
 
 import com.fomichev.jc_rent.enum.EntityStatus
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
+import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EntityListeners
-import javax.persistence.Table
 
 @Entity
 @EntityListeners(AuditingEntityListener::class)

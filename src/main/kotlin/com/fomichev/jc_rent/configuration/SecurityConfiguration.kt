@@ -5,31 +5,50 @@ import com.fomichev.jc_rent.security.jwt.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 class SecurityConfiguration(
     private val jwtTokenProvider: JwtTokenProvider
-) : WebSecurityConfigurerAdapter() {
+) {
 
     @Bean
-    override fun authenticationManagerBean(): AuthenticationManager {
-        return super.authenticationManagerBean()
+    fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager {
+        return authenticationConfiguration.getAuthenticationManager()
     }
 
-    override fun configure(http: HttpSecurity?) {
-        http!!
-            .httpBasic().disable()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests()
-            .antMatchers("/api/v1/auth/**").permitAll()
-            .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
-            .anyRequest().authenticated()
-            .and()
+    @Bean
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        http
+            .httpBasic { httpBasic -> httpBasic.disable() }
+            .csrf { csrf -> csrf.disable() }
+            .sessionManagement { SessionManagementConfigurer().sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .authorizeHttpRequests { authorizeHttpRequests ->
+                authorizeHttpRequests
+                    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+            }
             .apply(JwtConfigurer(jwtTokenProvider))
+
+        return http.build()
     }
+
+//    override fun configure(http: HttpSecurity?) {
+//        http!!
+//            .httpBasic().disable()
+//            .csrf().disable()
+//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//            .and()
+//            .authorizeRequests()
+//            .antMatchers("/api/v1/auth/**").permitAll()
+//            .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
+//            .anyRequest().authenticated()
+//            .and()
+//            .apply(JwtConfigurer(jwtTokenProvider))
+//    }
 }

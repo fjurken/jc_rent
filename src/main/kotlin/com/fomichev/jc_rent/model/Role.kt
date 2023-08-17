@@ -1,14 +1,14 @@
 package com.fomichev.jc_rent.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
+import jakarta.persistence.FetchType
+import jakarta.persistence.ManyToMany
+import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EntityListeners
-import javax.persistence.FetchType
-import javax.persistence.ManyToMany
-import javax.persistence.Table
 
 @Entity
 @DynamicUpdate
