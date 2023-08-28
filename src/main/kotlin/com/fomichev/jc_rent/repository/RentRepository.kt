@@ -32,7 +32,8 @@ interface RentRepository : JpaRepository<Rent, Long> {
     @Query(
         """
             update Rent r
-            set r.finishedDate = current_timestamp()
+            set r.finished_date = current_timestamp() 
+            and r.status = com.fomichev.jc_rent.enum.EntityStatus.NOT_ACTIVE
             where r.id = :rentId
         """,
         nativeQuery = true

@@ -12,6 +12,7 @@ import com.fomichev.jc_rent.service.AbstractService
 import com.fomichev.jc_rent.service.car.CarService
 import com.fomichev.jc_rent.service.price.PriceService
 import com.fomichev.jc_rent.service.rent.CarRentService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -36,8 +38,9 @@ class AdminController(
 
     /*Add a new car*/
     @PostMapping("/catalog/add_car")
-    fun addCar(@RequestBody car: CarRequest) {
-        carService.addNewCar(
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addCar(@RequestBody car: CarRequest): Car {
+        return carService.addNewCar(
             Car(
                 brand = car.brand,
                 model = car.model,

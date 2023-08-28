@@ -1,6 +1,7 @@
 package com.fomichev.jc_rent.mapper
 
 import com.fomichev.jc_rent.controller.dto.response.CarCatalog
+import com.fomichev.jc_rent.enum.EngineType
 import com.fomichev.jc_rent.model.Car
 import org.springframework.stereotype.Service
 
@@ -16,7 +17,9 @@ class CarMapper {
                     id = it.id!!.toInt(),
                     car = it.brand.displayName + " " + it.model,
                     color = it.color.name,
-                    engine = "${it.engineCapacity}L, ${it.enginePower}hp",
+                    engine = if (it.engineType != EngineType.ELECTRIC) {
+                        "${it.engineCapacity}L, ${it.enginePower}hp"
+                    } else "${it.enginePower}hp",
                     transmission = it.transmission.name,
                     price = price.getValue(it.id!!)
                 )

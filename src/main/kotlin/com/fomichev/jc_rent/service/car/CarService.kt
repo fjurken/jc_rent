@@ -6,7 +6,7 @@ import com.fomichev.jc_rent.model.Car
 
 interface CarService {
 
-    fun addNewCar(car: Car)
+    fun addNewCar(car: Car): Car
 
     fun updateCar(request: UpdateCarRequest)
 

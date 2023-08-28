@@ -27,8 +27,8 @@ class CarServiceImpl(
 ) : CarService {
 
     @Transactional
-    override fun addNewCar(car: Car) {
-        carRepository.save(car)
+    override fun addNewCar(car: Car): Car {
+        return carRepository.save(car)
     }
 
     @Transactional
