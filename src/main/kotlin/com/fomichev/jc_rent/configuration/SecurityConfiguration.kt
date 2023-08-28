@@ -38,17 +38,4 @@ class SecurityConfiguration(
         return http.build()
     }
 
-//    override fun configure(http: HttpSecurity?) {
-//        http!!
-//            .httpBasic().disable()
-//            .csrf().disable()
-//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//            .and()
-//            .authorizeRequests()
-//            .antMatchers("/api/v1/auth/**").permitAll()
-//            .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
-//            .anyRequest().authenticated()
-//            .and()
-//            .apply(JwtConfigurer(jwtTokenProvider))
-//    }
 }

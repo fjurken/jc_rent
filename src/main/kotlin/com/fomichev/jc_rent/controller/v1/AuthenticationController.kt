@@ -1,4 +1,4 @@
-package com.fomichev.jc_rent.controller
+package com.fomichev.jc_rent.controller.v1
 
 import com.fomichev.jc_rent.controller.dto.request.AuthenticationRequestDto
 import com.fomichev.jc_rent.security.jwt.JwtTokenProvider
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/auth/")
-class AuthenticationControllerV1(
+class AuthenticationController(
     private val authenticationManager: AuthenticationManager,
     private val jwtTokenProvider: JwtTokenProvider,
     private val userService: UserService,

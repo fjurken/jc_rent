@@ -24,6 +24,7 @@ interface PriceRepository : JpaRepository<Price, Long> {
             select car_id, price
             from price p
             where car_id in :carIds
+            order by car_id
         """,
         nativeQuery = true
     )
