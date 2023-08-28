@@ -14,7 +14,9 @@ class ExcptHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun doResolveException(
-        e: MethodArgumentNotValidException, request: HttpServletRequest, response: HttpServletResponse
+        e: MethodArgumentNotValidException,
+        request: HttpServletRequest,
+        response: HttpServletResponse
     ): ModelAndView? {
 
         throw HttpClientErrorException(
