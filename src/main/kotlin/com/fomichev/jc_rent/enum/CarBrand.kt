@@ -10,5 +10,6 @@ enum class CarBrand(
     FORD("Ford"),
     TOYOTA("Toyota"),
     TESLA("Tesla"),
-    PORSCHE("Porsche")
+    PORSCHE("Porsche"),
+    VOLVO("Volvo")
 }
