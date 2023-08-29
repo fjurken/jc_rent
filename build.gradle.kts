@@ -55,9 +55,11 @@ dependencies {
     implementation("org.liquibase:liquibase-core:4.20.0")
     implementation("org.yaml:snakeyaml:1.32")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 //    implementation("com.squareup.okhttp3:okhttp:3.14.9")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.mockk:mockk:1.13.7")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
