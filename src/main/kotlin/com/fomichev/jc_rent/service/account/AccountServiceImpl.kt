@@ -1,7 +1,9 @@
 package com.fomichev.jc_rent.service.account
 
 import com.fomichev.jc_rent.controller.dto.request.UserRequest
+import com.fomichev.jc_rent.enum.Roles
 import com.fomichev.jc_rent.exception.EmailWasAlreadyRegisteredException
+import com.fomichev.jc_rent.model.Role
 import com.fomichev.jc_rent.model.User
 import com.fomichev.jc_rent.repository.RoleRepository
 import com.fomichev.jc_rent.repository.UserRepository
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class AccountServiceImpl(
     private val securityService: SecurityService,
+    private val passwordEncoder: BCryptPasswordEncoder,
     private val userRepository: UserRepository,
     private val roleRepository: RoleRepository,
     private val userService: UserService,
@@ -40,28 +43,21 @@ class AccountServiceImpl(
      * Sign up
      */
     @Transactional
-    override fun signUp(request: UserRequest) {
+    override fun signUp(request: UserRequest): User {
         if (userRepository.findByUsername(request.email) == null) {
-            val newUser = userService.register(
+            val role = roleRepository.findByName(Roles.USER.text)
+            val userRoles = mutableListOf<Role>()
+            userRoles.add(role)
+
+            return userRepository.save(
                 User(
                     username = request.email,
-                    password = request.password,
+                    password = passwordEncoder.encode(request.password),
                     firstName = request.firstName,
-                    lastName = request.lastName
+                    lastName = request.lastName,
+                    roles = userRoles
                 )
             )
-//        if (userRepository.findByUsername(request.email) == null) {
-//            val newUser = userRepository.save(
-//                User(
-//                    username = request.email,
-//                    password = request.password,
-//                    firstName = request.firstName,
-//                    lastName = request.lastName
-//                )
-//            )
-//            roleRepository.save(Role(Roles.USER.name, listOf(newUser)))
-//        log.info("New client ${newUser.username} with id=${newUser.id} successfully signed up!")
-//        return newUser
         } else throw EmailWasAlreadyRegisteredException(
             "Client with email ${request.email} was already registered" +
                 "\nPlease, log in or click \"Forgot my password\"",

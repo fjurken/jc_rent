@@ -24,3 +24,7 @@ jwt:
   token:
     secret: M01SaUN2aU5SV1djOGk2M2FPMXZTa0pkM3hCMDFGMFM=
     expired: 3600000
+
+notifications:
+  email:
+    sender: jc_rent@gmail.com

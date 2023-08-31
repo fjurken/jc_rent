@@ -19,7 +19,7 @@ class EmailNotificationServiceImpl() : EmailNotificationService, AbstractService
     private var mapGenerators = mapOf<EmailTemplate, EmailGenerator>()
 
     @Transactional
-    override fun notify(user: User, emailTemplate: EmailTemplate, payload: Map<String, String>?) {
+    override fun notify(user: User, emailTemplate: EmailTemplate, payload: Map<String, Any>) {
         val emailGenerator = mapGenerators[emailTemplate]
             ?: throw UnsupportedOperationException("$emailTemplate doesn't supported yet")
         log.info("Composing email for ${user.username}")

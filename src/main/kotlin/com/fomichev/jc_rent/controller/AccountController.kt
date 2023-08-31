@@ -1,11 +1,7 @@
 package com.fomichev.jc_rent.controller
 
 import com.fomichev.jc_rent.controller.dto.request.UserRequest
-import com.fomichev.jc_rent.enum.Roles
-import com.fomichev.jc_rent.exception.EmailWasAlreadyRegisteredException
 import com.fomichev.jc_rent.exception.UnknownEmailException
-import com.fomichev.jc_rent.model.Role
-import com.fomichev.jc_rent.model.User
 import com.fomichev.jc_rent.repository.RoleRepository
 import com.fomichev.jc_rent.repository.UserRepository
 import com.fomichev.jc_rent.service.account.AccountService
@@ -21,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 // @CrossOrigin(origins = ["http://localhost:5173"])
@@ -34,38 +31,15 @@ class AccountController(
     private val accountService: AccountService
 ) {
 
+    /**
+     * Register new account
+     * */
     @PostMapping("signup")
-    fun signIn(@Validated @RequestBody request: UserRequest): ResponseEntity<*> {
-        val role = roleRepository.findByName(Roles.USER.text)
-        val userRoles = mutableListOf<Role>()
-        userRoles.add(role)
-
-        val newUser = userRepository.save(
-            User(
-                username = request.email,
-                password = passwordEncoder.encode(request.password),
-                firstName = request.firstName,
-                lastName = request.lastName,
-                roles = userRoles
-            )
-        )
-        if (request.password == "") return ResponseEntity.badRequest().body("Field \"password\" can't be empty!")
-        try {
-
-            /*Notify new our client with Welcome template email*/
-            emailNotificationService.notify(newUser, EmailTemplate.WELCOME, null)
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(
-                    "${request.email} was successfully registered!" +
-                        "\n${request.email}, welcome to the Journey Car Rent"
-                )
-        } catch (ar: EmailWasAlreadyRegisteredException) {
-            /*Client with requested email was already registered*/
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ar.message)
-        }
+    @ResponseStatus(HttpStatus.OK)
+    fun signIn(@Validated @RequestBody request: UserRequest) {
+        val user = accountService.signUp(request)
+        /*Notify new our client with Welcome template email*/
+        emailNotificationService.notify(user, EmailTemplate.WELCOME, mapOf())
     }
 
     @GetMapping("/login")

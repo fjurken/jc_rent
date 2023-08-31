@@ -1,32 +1,42 @@
 package com.fomichev.jc_rent.service.rent
 
+import com.fomichev.jc_rent.configuration.JwtUtils
 import com.fomichev.jc_rent.controller.dto.request.CarRentRequest
 import com.fomichev.jc_rent.enum.EntityStatus
+import com.fomichev.jc_rent.exception.CarAlreadyOccupied
 import com.fomichev.jc_rent.model.Rent
 import com.fomichev.jc_rent.repository.RentRepository
+import com.fomichev.jc_rent.service.AbstractService
+import com.fomichev.jc_rent.service.utils.prettyDate
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 @Service
 class CarRentServiceImpl(
-    private val rentRepository: RentRepository
-) : CarRentService {
+    private val rentRepository: RentRepository,
+    private val jwtUtils: JwtUtils
+) : CarRentService, AbstractService() {
 
     @Transactional
     override fun getRentById(rentId: Long): Rent? {
         return rentRepository.findByIdOrNull(rentId)
     }
 
+    /**
+     * Create new request for car rent
+     * @param request - request from client
+     * */
     @Transactional
     override fun requestRent(request: CarRentRequest) {
-        val rent = Rent(
-            carId = request.carId,
-            startDate = request.startDate,
-            endDate = request.endDate,
-
-        )
-        rentRepository.save(rent)
+        log.info("New car rent request $request")
+        /*check do we have intersections with other clients or not*/
+        checkDatesIntersections(request.carId, request.startDate, request.endDate)
+        /*create and save new rent request*/
+        val newRequest = rentRepository.save(Rent(request.carId, jwtUtils.username, request.startDate, request.endDate))
+        log.info("Created new car rent request $newRequest")
     }
 
     @Transactional
@@ -49,5 +59,42 @@ class CarRentServiceImpl(
     @Transactional
     override fun getActiveRentList(): List<Rent> {
         return rentRepository.getActiveRentList()
+    }
+
+    /**
+     * Check do we have intersections with other clients or not
+     * @param carId - car ID
+     * @param startDate - start date
+     * @param endDate - end date
+     * */
+    private fun checkDatesIntersections(carId: Long, startDate: Instant, endDate: Instant) {
+        log.info("Checking rent request intersections by dates [$startDate - $endDate] and car ID=$carId")
+        var date: Instant
+        val intersectionDates = mutableListOf<Instant>()
+
+        /*Intersected periods from database by dates and car ID*/
+        val intersections = rentRepository.getIntersections(carId, startDate, endDate)
+
+        /*found something*/
+        if (intersections.isNotEmpty()) {
+            date = startDate
+            while (date <= endDate) {
+                intersections.forEach { otherPeriod ->
+                    if ((date.isAfter(otherPeriod.startDate) || date == otherPeriod.startDate) &&
+                        (date.isBefore(otherPeriod.endDate) || date == otherPeriod.endDate)
+                    ) {
+                        intersectionDates.add(date)
+                    }
+                }
+                date = date.plus(1, ChronoUnit.DAYS)
+            }
+
+            var stringDates = ""
+            intersectionDates.forEach { day -> stringDates += day.prettyDate() + ", " }
+                .also { stringDates = stringDates.removeSuffix(", ") }
+            throw CarAlreadyOccupied(
+                "The car is already occupied that days: $stringDates", null
+            )
+        }
     }
 }

@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Email(
-    val emailAddress: String,
-    val templateName: String,
+    val receiver: String,
+    val sender: String,
+    val subject: String,
     val htmlData: String
 )

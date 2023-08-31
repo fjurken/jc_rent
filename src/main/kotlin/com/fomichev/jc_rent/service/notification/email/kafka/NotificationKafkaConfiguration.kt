@@ -19,6 +19,7 @@ class NotificationKafkaConfiguration {
         config[ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION] = "3"
         config[ProducerConfig.RETRIES_CONFIG] = "3"
         config[ProducerConfig.RETRY_BACKOFF_MS_CONFIG] = "500"
+        config[ProducerConfig.MAX_BLOCK_MS_CONFIG] = "5000"
         config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = JsonSerializerWithJTM::class.java
         config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JsonSerializerWithJTM::class.java
 

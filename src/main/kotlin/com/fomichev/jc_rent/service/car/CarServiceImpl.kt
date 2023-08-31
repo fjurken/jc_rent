@@ -1,5 +1,6 @@
 package com.fomichev.jc_rent.service.car
 
+import com.fomichev.jc_rent.configuration.JwtUtils
 import com.fomichev.jc_rent.controller.dto.request.CarRentRequest
 import com.fomichev.jc_rent.controller.dto.request.UpdateCarRequest
 import com.fomichev.jc_rent.enum.EntityStatus
@@ -12,6 +13,7 @@ import com.fomichev.jc_rent.service.notification.email.templates.EmailTemplate
 import com.fomichev.jc_rent.service.price.PriceService
 import com.fomichev.jc_rent.service.rent.CarRentService
 import com.fomichev.jc_rent.service.user.UserService
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,7 +25,8 @@ class CarServiceImpl(
     private val carRentService: CarRentService,
     private val emailNotificationService: EmailNotificationService,
     private val userService: UserService,
-    private val priceService: PriceService
+    private val priceService: PriceService,
+    private val jwtUtils: JwtUtils
 ) : CarService {
 
     @Transactional
@@ -66,20 +69,21 @@ class CarServiceImpl(
     override fun requestRentCar(request: CarRentRequest) {
         println("Request for rent car=${getCar(request.carId)}, from: ${request.startDate} to: ${request.endDate}")
 
-        carRentService.requestRent(request)
-        val user = userService.findByUsername(SecurityContextHolder.getContext().authentication.name)
+        val user = userService.findByUsername(jwtUtils.username)
         val car = getCar(request.carId)
         val duration = Duration.between(request.startDate, request.endDate).toDays()
         val price = duration * (
             priceService.getPriceByCarId(car!!.id!!)
                 ?: throw RentException("Chosen car doesn't allowed to be rented, please try again later", null)
             )
+        carRentService.requestRent(request)
 
         /*Notification*/
-        val payload = mutableMapOf<String, String>()
-        payload["date"] = "dates from ${request.startDate} to ${request.endDate}"
-        payload["car"] = "car is $car"
-        payload["total"] = "total: days $duration, price $price"
+        val payload = mutableMapOf<String, Any>()
+        payload["car"] = car
+        payload["request"] = request
+        payload["duration"] = duration
+        payload["price"] = price
         emailNotificationService.notify(user!!, EmailTemplate.RENT_REQUEST, payload)
     }
 

@@ -5,5 +5,5 @@ import com.fomichev.jc_rent.service.notification.email.templates.EmailTemplate
 
 interface EmailNotificationService {
 
-    fun notify(user: User, emailTemplate: EmailTemplate, payload: Map<String, String>?)
+    fun notify(user: User, emailTemplate: EmailTemplate, payload: Map<String, Any>)
 }

@@ -9,6 +9,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.springframework.mail.javamail.JavaMailSender
 
 internal class CarServiceImplTest {
 
@@ -17,9 +18,17 @@ internal class CarServiceImplTest {
     private val emailNotificationService: EmailNotificationService = mockk()
     private val userService: UserService = mockk()
     private val priceService: PriceService = mockk()
+    private val javaMailSender: JavaMailSender = mockk()
 
     private val carServiceImpl =
-        CarServiceImpl(carRepository, carRentService, emailNotificationService, userService, priceService)
+        CarServiceImpl(
+            carRepository,
+            carRentService,
+            emailNotificationService,
+            userService,
+            priceService,
+            javaMailSender
+        )
 
     @Test
     fun addNewCar() {

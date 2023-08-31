@@ -1,9 +1,11 @@
 package com.fomichev.jc_rent.service.notification.email.templates
 
-enum class EmailTemplate {
-    WELCOME,
-    PASSWORD_CHANGED,
-    EMAIL_CHANGED,
-    RESTORE_PASSWORD,
-    RENT_REQUEST
+enum class EmailTemplate(
+    val text: String
+) {
+    WELCOME("Welcome to Journey Car Rent"),
+    PASSWORD_CHANGED("Password has been changed"),
+    EMAIL_CHANGED(""),
+    RESTORE_PASSWORD("Password has been restored"),
+    RENT_REQUEST("Car rent request")
 }

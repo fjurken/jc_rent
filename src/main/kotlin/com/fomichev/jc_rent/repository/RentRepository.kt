@@ -6,9 +6,23 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import java.time.Instant
 
 @Repository
 interface RentRepository : JpaRepository<Rent, Long> {
+
+    @Query(
+        """
+        select r from Rent r
+        where r.carId = :carId
+        and ((startDate >= :startDate or startDate <= :endDate) or (endDate <= :startDate or endDate >= :endDate))
+        """
+    )
+    fun getIntersections(
+        @Param("carId") carId: Long,
+        @Param("startDate") startDate: Instant,
+        @Param("endDate") endDate: Instant
+    ): List<Rent>
 
     @Query(
         """

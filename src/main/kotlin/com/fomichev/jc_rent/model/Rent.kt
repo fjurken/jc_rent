@@ -18,6 +18,9 @@ class Rent(
     @Column(name = "car_id")
     var carId: Long,
 
+    @Column(name = "user_id")
+    var userId: String,
+
     @Column(name = "start_date")
     var startDate: Instant,
 
