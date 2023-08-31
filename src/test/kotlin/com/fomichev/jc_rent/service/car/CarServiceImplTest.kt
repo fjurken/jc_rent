@@ -1,5 +1,6 @@
 package com.fomichev.jc_rent.service.car
 
+import com.fomichev.jc_rent.configuration.JwtUtils
 import com.fomichev.jc_rent.repository.CarRepository
 import com.fomichev.jc_rent.service.notification.email.EmailNotificationService
 import com.fomichev.jc_rent.service.price.PriceService
@@ -9,7 +10,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.springframework.mail.javamail.JavaMailSender
 
 internal class CarServiceImplTest {
 
@@ -18,7 +18,7 @@ internal class CarServiceImplTest {
     private val emailNotificationService: EmailNotificationService = mockk()
     private val userService: UserService = mockk()
     private val priceService: PriceService = mockk()
-    private val javaMailSender: JavaMailSender = mockk()
+    private val jwtUtils: JwtUtils = mockk()
 
     private val carServiceImpl =
         CarServiceImpl(
@@ -27,7 +27,7 @@ internal class CarServiceImplTest {
             emailNotificationService,
             userService,
             priceService,
-            javaMailSender
+            jwtUtils
         )
 
     @Test

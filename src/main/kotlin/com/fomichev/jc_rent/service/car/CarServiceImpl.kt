@@ -13,8 +13,6 @@ import com.fomichev.jc_rent.service.notification.email.templates.EmailTemplate
 import com.fomichev.jc_rent.service.price.PriceService
 import com.fomichev.jc_rent.service.rent.CarRentService
 import com.fomichev.jc_rent.service.user.UserService
-import org.springframework.mail.javamail.JavaMailSender
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
