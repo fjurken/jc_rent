@@ -15,7 +15,7 @@ interface RentRepository : JpaRepository<Rent, Long> {
         """
         select r from Rent r
         where r.carId = :carId
-        and ((startDate >= :startDate or startDate <= :endDate) or (endDate <= :startDate or endDate >= :endDate))
+        and ((endDate >= :startDate and startDate <= :endDate) or (endDate <= :startDate and startDate >= :endDate))
         """
     )
     fun getIntersections(

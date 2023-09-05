@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import com.fomichev.jc_rent.service.rent.BusyPeriod as BusyPeriod
 
 @Service
 class CarRentServiceImpl(
@@ -70,6 +71,7 @@ class CarRentServiceImpl(
     private fun checkDatesIntersections(carId: Long, startDate: Instant, endDate: Instant) {
         log.info("Checking rent request intersections by dates [$startDate - $endDate] and car ID=$carId")
         var date: Instant
+        var bufferDate: Instant? = null
         val intersectionDates = mutableListOf<Instant>()
 
         /*Intersected periods from database by dates and car ID*/
@@ -89,6 +91,29 @@ class CarRentServiceImpl(
                 date = date.plus(1, ChronoUnit.DAYS)
             }
 
+            val periods = mutableListOf<BusyPeriod<Instant, Instant?>>()
+            var periodStart: Instant? = null
+            var currentPeriod: BusyPeriod<Instant, Instant?>
+
+//            intersectionDates.forEach {
+//                /*Start of period*/
+//                if (periodStart == null) {
+//                    periodStart = it
+//                    periods.add(Pair(periodStart!!, null))
+//                    currentPeriod = Pair(periodStart!!, null)
+//                }
+//
+//                if (bufferDate == null) {
+//                    bufferDate = it
+//                } else {
+//                    if (bufferDate!!.plus(1, ChronoUnit.DAYS) != it) {
+//                        currentPeriod.end = it
+//                    }
+//                }
+//            }
+
+//            periods.removeIf { it.second == null }
+
             var stringDates = ""
             intersectionDates.forEach { day -> stringDates += day.prettyDate() + ", " }
                 .also { stringDates = stringDates.removeSuffix(", ") }
@@ -98,3 +123,8 @@ class CarRentServiceImpl(
         }
     }
 }
+
+class BusyPeriod<out A, out B>(
+    val start: A,
+    val end: B?
+)

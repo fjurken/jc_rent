@@ -2,7 +2,8 @@ spring:
   liquibase:
     enabled: true
   datasource:
-    url: jdbc:mysql://localhost:8889/jcrent?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
+#    url: jdbc:mysql://localhost:8889/jcrent?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
+    url: jdbc:postgresql://localhost:5432/jc_rent
     username: root
     password: root
     driverClassName: com.mysql.jdbc.Driver
