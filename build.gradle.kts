@@ -56,6 +56,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core:4.20.0")
     implementation("org.yaml:snakeyaml:1.32")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
+    implementation("org.apache.poi:poi:3.17")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 //    implementation("com.squareup.okhttp3:okhttp:3.14.9")
     runtimeOnly("org.postgresql:postgresql")

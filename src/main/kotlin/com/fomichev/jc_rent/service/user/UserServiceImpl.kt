@@ -6,6 +6,7 @@ import com.fomichev.jc_rent.model.Role
 import com.fomichev.jc_rent.model.User
 import com.fomichev.jc_rent.repository.RoleRepository
 import com.fomichev.jc_rent.repository.UserRepository
+import mu.KLogging
 import mu.KotlinLogging
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -16,9 +17,7 @@ class UserServiceImpl(
     private val userRepository: UserRepository,
     private val roleRepository: RoleRepository,
     private val passwordEncoder: BCryptPasswordEncoder
-) : UserService {
-
-    val log = KotlinLogging.logger { }
+) : UserService, KLogging() {
 
     @Transactional
     override fun register(user: User) {
@@ -32,7 +31,7 @@ class UserServiceImpl(
 
         val registeredUser = userRepository.save(user)
 
-        log.info("User $registeredUser was successfully registered")
+        logger.info("User $registeredUser was successfully registered")
 //
 //        return registeredUser
     }
@@ -40,14 +39,14 @@ class UserServiceImpl(
     @Transactional
     override fun getAll(): List<User> {
         val result = userRepository.findAll()
-        log.info("Users found: ${result.size}")
+        logger.info("Users found: ${result.size}")
         return result
     }
 
     @Transactional
     override fun findByUsername(username: String): User? {
         val result = userRepository.findByUsername(username)
-        log.info("User found by username: $result")
+        logger.info("User found by username: $result")
         return result
     }
 
@@ -55,16 +54,16 @@ class UserServiceImpl(
     override fun findById(id: Long): User? {
         val result = userRepository.findById(id).orElse(null)
         if (result == null) {
-            log.warn("User not found by id $id")
+            logger.warn("User not found by id $id")
         }
-        log.info("User $result found by id $id")
+        logger.info("User $result found by id $id")
         return result
     }
 
     @Transactional
     override fun delete(id: Long) {
         userRepository.deleteById(id)
-        log.info("User successfully deleted by id $id")
+        logger.info("User successfully deleted by id $id")
     }
 
     @Transactional

@@ -6,8 +6,8 @@ import com.fomichev.jc_rent.enum.EntityStatus
 import com.fomichev.jc_rent.exception.CarAlreadyOccupied
 import com.fomichev.jc_rent.model.Rent
 import com.fomichev.jc_rent.repository.RentRepository
-import com.fomichev.jc_rent.service.AbstractService
 import com.fomichev.jc_rent.service.utils.prettyDate
+import mu.KLogging
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,7 +19,7 @@ import com.fomichev.jc_rent.service.rent.BusyPeriod as BusyPeriod
 class CarRentServiceImpl(
     private val rentRepository: RentRepository,
     private val jwtUtils: JwtUtils
-) : CarRentService, AbstractService() {
+) : CarRentService, KLogging() {
 
     @Transactional
     override fun getRentById(rentId: Long): Rent? {
@@ -32,12 +32,12 @@ class CarRentServiceImpl(
      * */
     @Transactional
     override fun requestRent(request: CarRentRequest) {
-        log.info("New car rent request $request")
+        logger.info("New car rent request $request")
         /*check do we have intersections with other clients or not*/
         checkDatesIntersections(request.carId, request.startDate, request.endDate)
         /*create and save new rent request*/
         val newRequest = rentRepository.save(Rent(request.carId, jwtUtils.username, request.startDate, request.endDate))
-        log.info("Created new car rent request $newRequest")
+        logger.info("Created new car rent request $newRequest")
     }
 
     @Transactional
@@ -69,7 +69,7 @@ class CarRentServiceImpl(
      * @param endDate - end date
      * */
     private fun checkDatesIntersections(carId: Long, startDate: Instant, endDate: Instant) {
-        log.info("Checking rent request intersections by dates [$startDate - $endDate] and car ID=$carId")
+        logger.info("Checking rent request intersections by dates [$startDate - $endDate] and car ID=$carId")
         var date: Instant
         var bufferDate: Instant? = null
         val intersectionDates = mutableListOf<Instant>()

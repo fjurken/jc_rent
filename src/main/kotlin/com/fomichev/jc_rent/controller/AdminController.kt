@@ -8,10 +8,10 @@ import com.fomichev.jc_rent.enum.EntityStatus
 import com.fomichev.jc_rent.exception.RentException
 import com.fomichev.jc_rent.mapper.RentMapper
 import com.fomichev.jc_rent.model.Car
-import com.fomichev.jc_rent.service.AbstractService
 import com.fomichev.jc_rent.service.car.CarService
 import com.fomichev.jc_rent.service.price.PriceService
 import com.fomichev.jc_rent.service.rent.CarRentService
+import mu.KLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -34,7 +34,7 @@ class AdminController(
     private val carRentService: CarRentService,
     private val priceService: PriceService,
     private val rentMapper: RentMapper
-) : AbstractService() {
+) : KLogging() {
 
     /*Add a new car*/
     @PostMapping("/catalog/add_car")

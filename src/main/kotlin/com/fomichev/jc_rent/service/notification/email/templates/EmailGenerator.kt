@@ -3,15 +3,15 @@ package com.fomichev.jc_rent.service.notification.email.templates
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fomichev.jc_rent.model.User
-import com.fomichev.jc_rent.service.AbstractService
 import com.fomichev.jc_rent.service.notification.email.dto.Email
+import mu.KLogging
 import org.springframework.mail.MailException
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 
 abstract class EmailGenerator(
     private val javaMailSender: JavaMailSender,
-) : AbstractService() {
+) : KLogging() {
 
     abstract fun composeEmail(user: User, payload: Map<String, Any>): Email
 
@@ -26,9 +26,9 @@ abstract class EmailGenerator(
         messageHelper.setText(email.htmlData, true)
         try {
             javaMailSender.send(message)
-            log.info("Email ${this.getMyCode()} was successfully sent to ${email.receiver}!")
+            logger.info("Email ${this.getMyCode()} was successfully sent to ${email.receiver}!")
         } catch (ex: MailException) {
-            log.error("Something went wrong during sending email!", ex)
+            logger.error("Something went wrong during sending email!", ex)
         }
     }
 }
