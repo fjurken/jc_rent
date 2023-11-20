@@ -1,20 +1,16 @@
 package com.fomichev.jc_rent.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.FetchType
-import jakarta.persistence.ManyToMany
-import jakarta.persistence.Table
-import org.hibernate.annotations.DynamicUpdate
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import jakarta.persistence.*
 
 @Entity
-@DynamicUpdate
-@EntityListeners(AuditingEntityListener::class)
-@Table(name = "roles")
+@Table(schema = "main", name = "roles")
 class Role(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    var id: Long? = null,
 
     @Column(name = "name")
     var name: String,

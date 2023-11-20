@@ -37,8 +37,6 @@ subprojects {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -51,9 +49,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-    implementation("mysql:mysql-connector-java:5.1.49")
     implementation("org.springframework.kafka:spring-kafka:3.0.9")
     implementation("org.liquibase:liquibase-core:4.20.0")
+    implementation("org.postgresql:postgresql:42.6.0")
+    runtimeOnly("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("org.yaml:snakeyaml:1.32")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
     implementation("org.apache.poi:poi:3.17")

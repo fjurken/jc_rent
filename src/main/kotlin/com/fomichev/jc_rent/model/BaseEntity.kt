@@ -5,9 +5,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.annotation.CreatedDate
@@ -19,11 +16,6 @@ import java.time.Instant
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener::class)
 open class BaseEntity(
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    var id: Long? = null,
 
     @CreatedDate
     @Column(name = "created")

@@ -36,7 +36,14 @@ class CarRentServiceImpl(
         /*check do we have intersections with other clients or not*/
         checkDatesIntersections(request.carId, request.startDate, request.endDate)
         /*create and save new rent request*/
-        val newRequest = rentRepository.save(Rent(request.carId, jwtUtils.username, request.startDate, request.endDate))
+        val newRequest = rentRepository.save(
+            Rent(
+                carId = request.carId,
+                userId = jwtUtils.username,
+                startDate = request.startDate,
+                endDate = request.endDate
+            )
+        )
         logger.info("Created new car rent request $newRequest")
     }
 

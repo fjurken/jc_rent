@@ -5,20 +5,20 @@ import com.fomichev.jc_rent.enum.CarColor
 import com.fomichev.jc_rent.enum.CarType
 import com.fomichev.jc_rent.enum.EngineType
 import com.fomichev.jc_rent.enum.Transmission
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 
 @Entity
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener::class)
-@Table(name = "cars")
+@Table(schema = "main", name = "cars")
 class Car(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    var id: Long? = null,
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "brand", length = 30)
@@ -55,15 +55,15 @@ class Car(
 
     override fun toString(): String {
         return "" +
-            "Car Id=$id, " +
-            "brand=$brand, " +
-            "model=$model, " +
-            "car type=$carType, " +
-            "color=$color, " +
-            "engine type=$engineType, " +
-            "engine capacity=$engineCapacity, " +
-            "engine power=$enginePower, " +
-            "transmission=$transmission, " +
-            "licence plate=$licencePlate, "
+                "Car Id=$id, " +
+                "brand=$brand, " +
+                "model=$model, " +
+                "car type=$carType, " +
+                "color=$color, " +
+                "engine type=$engineType, " +
+                "engine capacity=$engineCapacity, " +
+                "engine power=$enginePower, " +
+                "transmission=$transmission, " +
+                "licence plate=$licencePlate, "
     }
 }

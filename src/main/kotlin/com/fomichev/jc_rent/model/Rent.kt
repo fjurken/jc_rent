@@ -1,10 +1,7 @@
 package com.fomichev.jc_rent.model
 
 import com.fomichev.jc_rent.enum.EntityStatus
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
@@ -12,8 +9,13 @@ import java.time.Instant
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @DynamicUpdate
-@Table(name = "rent")
+@Table(schema = "main", name = "rent")
 class Rent(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    var id: Long? = null,
 
     @Column(name = "car_id")
     var carId: Long,

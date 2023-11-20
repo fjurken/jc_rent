@@ -1,12 +1,15 @@
 package com.fomichev.jc_rent.model
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Entity
-@Table(name = "price")
+@Table(schema = "main", name = "price")
 class Price(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    var id: Long? = null,
 
     @Column(name = "car_id")
     var carId: Long,

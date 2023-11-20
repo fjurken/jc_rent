@@ -19,7 +19,7 @@ class WelcomeMail(
             subject = getMyCode().text,
             htmlData = "Welcome to the Journey Car Rent"
         )
-        log.info("Composed ${email.subject} successfully")
+        logger.info("Composed ${email.subject} successfully")
         return email
     }
 
